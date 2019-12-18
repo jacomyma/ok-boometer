@@ -1,0 +1,31 @@
+{
+  "name": "ok-boometer",
+  "version": "0.0.1",
+  "description": "A website that counts how many times someone has received *OK Boomer* on Twitter.",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-animate": "^1.6.1",
+    "angular-aria": "^1.6.1",
+    "angular-material": "^1.1.3",
+    "angular-route": "^1.6.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "style-loader": "^0.19.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.3.0"
+  },
+  "scripts": {
+    "build": "webpack --colors --progress",
+    "dev": "webpack-dev-server --port 3000 -d --colors --progress --watch",
+    "postinstall": "npm run build",
+    "watch": "webpack -d --colors --progress --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ok-boometer"
+  },
+  "author": "jacomyma",
+  "license": ""
+}
