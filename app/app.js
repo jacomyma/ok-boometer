@@ -11,17 +11,17 @@ require('angular-material');
 require('angular-route');
 
 // Requiring own modules
-// require('./view_upload/upload.js');
+require('./view_home/home.js');
 
 // Declare app level module which depends on views, and components
 angular.module('graphrecipes', [
   'ngRoute',
   'ngMaterial',
-  // 'okboometer.view_upload',
+  'okboometer.view_home',
 ])
-// .config(['$routeProvider', function($routeProvider) {
-//   $routeProvider.otherwise({redirectTo: '/upload'});
-// }])
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.otherwise({redirectTo: '/'});
+}])
 
 // Filters
 .filter('number', function() {
