@@ -59,7 +59,7 @@ function getOldTweets_to_idList() {
 
 function harvest_idList() {
 	let options = {}
-	options.limit = 10 // For testing purpose
+	options.limit = 100 // For testing purpose
 	options.bufferMaxSize = 50
 
 	let idListBuffer = []
@@ -87,7 +87,21 @@ function harvest_idList() {
 
 		T.get('statuses/lookup', params, function(err, data, response) {
 		  if (!err) {
-		  	console.log(data)
+		  	data.forEach(t => {
+		  		if (tweetObjectOrdeal(t)) {
+		  			console.log(t.text)
+		  		}
+		  		// t.id_str
+		  		// t.in_reply_to_status_id_str
+		  		// t.in_reply_to_user_id_str
+		  		// t.in_reply_to_screen_name
+		  		// t.user.id_str
+		  		// t.user.screen_name
+		  		// t.text
+		  		// t.is_quote_status
+		  		// t.quoted_status_id_str
+		  		// t.quoted_status.user.id_str
+		  	})
 		  } else {
 		    console.log(err);
 		  }
@@ -107,4 +121,35 @@ function gotTextContentOrdeal(text){
 		if (text.length > 20) return false
 		else return true
 	} else return false
+}
+
+function tweetObjectOrdeal(t){
+	// Must be a reply or a quote
+	if (t.in_reply_to_status_id_str == null && !t.is_quote_status) return false
+
+	var text = t.text
+
+	// Must have text and contain OK boomer (pics and URLs removed)
+	if (text == undefined || text.length < 8) return false
+
+	// Must contain OK Boomer
+	if (!text.match(/ok.?.?boomer/gi)) return false
+
+	// Remove 1 URL
+	text = text.replace(/https?:\/\/[^ ]*/i, '')
+
+	// Remove 1 image
+	text = text.replace(/pic\.twitter\.com\/[^ ]*/i, '')
+
+	// Remove mentions
+	var oldtext = text
+	text = oldtext.replace(/@[^ ]+ ?/gi, '')
+	while (text.length < oldtext.length) {
+		oldtext = text
+		text = oldtext.replace(/@[^ ]+ ?/gi, '')
+	}
+
+	// Then, it must not be too short
+	if (text.length > 20) return false
+	else return true
 }
