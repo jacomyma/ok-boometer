@@ -4,22 +4,16 @@ var Twitter = require('twitter');
 var config = require('./config.js');
 var T = new Twitter(config);
 
+var id_list = [20]
+
 // Set up your search parameters
 var params = {
-  q: '#nodejs',
-  count: 10,
-  result_type: 'recent',
-  lang: 'en'
+  id: id_list.join(',')
 }
 
-T.get('search/tweets', params, function(err, data, response) {
+T.get('statuses/lookup', params, function(err, data, response) {
   if (!err) {
-    // This is where the magic will happen
-    for (let i = 0; i < data.statuses.length; i++) {
-      // Get the tweet Id from the returned data
-      let id = { id: data.statuses[i].id_str }
-      console.log('id', id)
-    }
+  	console.log(data)
   } else {
     console.log(err);
   }
