@@ -3,7 +3,7 @@
 ### Get old tweets
 We assume old tweets have been collected using *[Get Old Tweets](https://github.com/Jefferson-Henrique/GetOldTweets-python)* using a query of this kind:
 ```
-python Exporter.py --since 2019-11-30 --until 2019-12-10 --querysearch 'okboomer OR "ok boomer" OR okboomers OR "ok boomers"'
+python Exporter.py --since 2019-12-17 --until 2019-12-18 --querysearch "ok boomer"
 ```
 You may get one or more file, because the process is unstable and you may have to retry several times and progress time range after time range. It's fine. All the files must be stored in ```/data/got/```.
 

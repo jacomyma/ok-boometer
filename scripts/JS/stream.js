@@ -7,7 +7,8 @@ const fs = require('fs');
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 
 const T = new Twitter(config);
-const searchQuery = 'okboomer OR "ok boomer" OR okboomers OR "ok boomers"'
+const searchQuery = 'ok boomer'
+// const searchQuery = 'okboomer OR "ok boomer" OR okboomers OR "ok boomers"'
 const outputDirPath = path.join(__dirname, '../../app/data');
 
 const csvStringifier = createCsvStringifier({
@@ -27,7 +28,7 @@ const csvStringifier = createCsvStringifier({
 
 var stream = T.stream('statuses/filter', {track: searchQuery});
 stream.on('data', function(t) {
-	console.log('Potential OK-Booming detected')
+	console.log('\nPotential OK-Booming detected https://twitter.com/x/status/'+t.id_str)
 	if (config.tweetObjectOrdeal(t)) {
 		let row
 		if (t.is_quote_status) {
@@ -53,10 +54,10 @@ stream.on('data', function(t) {
 				date: (new Date(t.created_at)).toISOString()
 			}])
 		} else {
-			console.log('...rejected (incomplete data). https://twitter.com/x/status/'+t.id_str)
+			console.log('...rejected (incomplete data).')
 		}
 		if (row) {
-			console.log('...valid! https://twitter.com/x/status/'+t.id_str+' '+t.text)
+			console.log('...valid! '+t.text)
 			// Add row to the data
 			fs.appendFile(outputDirPath +'/okbooming.csv', row, function (err) {
 			  if (err) throw err;
@@ -64,7 +65,7 @@ stream.on('data', function(t) {
 			});
 		}
 	} else {
-		console.log('...rejected (criteria not met). https://twitter.com/x/status/'+t.id_str+' '+t.text)
+		console.log('...rejected (criteria not met). '+t.text)
 	}
 });
  
