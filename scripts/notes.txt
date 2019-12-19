@@ -1,4 +1,4 @@
-1. Get metadata from getOldTweets data via Gazouilloire
+1. Get metadata from getOldTweets data via scripts
 2. Filter to keep only:
 	- tweets that answer another tweet
 	- containing OK Boomer (i.e. not just as a user or something else)
