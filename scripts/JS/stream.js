@@ -27,8 +27,8 @@ const csvStringifier = createCsvStringifier({
 
 var stream = T.stream('statuses/filter', {track: searchQuery});
 stream.on('data', function(t) {
+	console.log('Potential OK-Booming detected')
 	if (config.tweetObjectOrdeal(t)) {
-	  console.log(event);
 		let row
 		if (t.is_quote_status) {
 			if (t.quoted_status && t.quoted_status.user) {
@@ -52,14 +52,19 @@ stream.on('data', function(t) {
 				user_name_target: t.in_reply_to_screen_name,
 				date: (new Date(t.created_at)).toISOString()
 			}])
+		} else {
+			console.log('...rejected (incomplete data). https://twitter.com/x/status/'+t.id_str)
 		}
 		if (row) {
+			console.log('...valid! https://twitter.com/x/status/'+t.id_str+' '+t.text)
 			// Add row to the data
 			fs.appendFile(outputDirPath +'/okbooming.csv', row, function (err) {
 			  if (err) throw err;
-			  console.log('...file updated');
+			  console.log('...data updated');
 			});
 		}
+	} else {
+		console.log('...rejected (criteria not met). https://twitter.com/x/status/'+t.id_str+' '+t.text)
 	}
 });
  
