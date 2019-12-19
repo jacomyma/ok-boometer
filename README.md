@@ -14,6 +14,7 @@ npm install
 npm run build
 ```
 
+
 ### Dev commands
 
 ```
@@ -24,5 +25,12 @@ npm run watch
 npm run dev
 ```
 
+
 ## Usage
+
 The website is in the app folder.
+
+
+# Where is the data I need?
+
+We do not provide it but we share the process, it's actually pretty easy. Look for instructions in the ```scripts/JS/``` folder.

@@ -1,7 +1,0 @@
-1. Get metadata from getOldTweets data via scripts
-2. Filter to keep only:
-	- tweets that answer another tweet
-	- containing OK Boomer (i.e. not just as a user or something else)
-	- but not containing more than 20 characters (else the commentary kind of invalidates the message)
-3. Get metadata of ok-boomed tweets from Gazouilloire
-4. Store in ES

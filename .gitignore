@@ -1,8 +1,8 @@
 node_modules/*
 bower_components/*
 scripts/data/*
-scripts/harvest/node_modules/*
-scripts/harvest/config.js
+scripts/JS/node_modules/*
+scripts/JS/config.js
 
 # Windows image file caches
 Thumbs.db
