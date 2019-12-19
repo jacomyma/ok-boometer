@@ -10,6 +10,10 @@ require('angular-aria');
 require('angular-material');
 require('angular-route');
 
+// Making some modules global for the custom scripts to consume
+var d3 = require('d3');
+window.d3 = d3;
+
 // Requiring own modules
 require('./view_home/home.js');
 
@@ -56,6 +60,29 @@ angular.module('graphrecipes', [
 .factory('cache', function(){
   var ns = {}
   ns.recipes = {}
+  return ns
+})
+
+.factory('dataProvider', function(){
+  var ns = {}
+  ns.loaded = false
+  d3.csv("data/okbooming.csv").then(function(data) {
+    ns.data = {okbooming: data}
+
+    // Aggregate by boomed
+    ns.data.topBoomedList = d3.nest()
+      .key(function(d){ return d["Boomed user ID"] })
+      .rollup(function(a){ return a.length })
+      .entries(ns.data.okbooming)
+      .sort(function(a,b){ return b.value-a.value})
+
+    ns.loaded = true
+    if (ns.cb) ns.cb(ns.data)
+  })
+  ns.onLoad = function(callback){
+    if (ns.loaded) callback(ns.data)
+    else ns.cb = callback
+  }
   return ns
 })
 

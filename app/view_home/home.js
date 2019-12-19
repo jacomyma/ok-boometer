@@ -9,6 +9,9 @@ angular.module('okboometer.view_home', ['ngRoute'])
   })
 })
 
-.controller('HomeCtrl', function($scope, $timeout) {
-
+.controller('HomeCtrl', function($scope, $timeout, dataProvider) {
+	dataProvider.onLoad(function(data){
+		console.log(data.topBoomedList)
+	})
+	
 })
