@@ -5,6 +5,7 @@ const config = require('./config.js');
 const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const T = new Twitter(config);
 
@@ -59,9 +60,8 @@ function getOldTweets_to_idList() {
 
 function harvest_idList() {
 	let options = {}
-	options.limit = 10 // For testing purpose
+	options.limit = Infinity // For testing purpose
 	options.batchSize = 100
-
 
 	let idListBuffer = []
 	let okBooming = []
@@ -109,17 +109,19 @@ function harvest_idList() {
 		T.get('statuses/lookup', params, function(err, data, response) {
 		  if (!err) {
 		  	data.forEach(t => {
-		  		if (tweetObjectOrdeal(t)) {
+		  		if (config.tweetObjectOrdeal(t)) {
 		  			if (t.is_quote_status) {
-		  				okBooming.push({
-		  					id_source: t.id_str,
-		  					id_target: t.quoted_status_id_str,
-		  					user_id_source: t.user.id_str,
-		  					user_id_target: t.quoted_status.user.id_str,
-		  					user_name_source: t.user.screen_name,
-		  					user_name_target: t.quoted_status.user.screen_name,
-		  					date: (new Date(t.created_at)).toISOString()
-		  				})
+		  				if (t.quoted_status && t.quoted_status.user) {
+			  				okBooming.push({
+			  					id_source: t.id_str,
+			  					id_target: t.quoted_status_id_str,
+			  					user_id_source: t.user.id_str,
+			  					user_id_target: t.quoted_status.user.id_str,
+			  					user_name_source: t.user.screen_name,
+			  					user_name_target: t.quoted_status.user.screen_name,
+			  					date: (new Date(t.created_at)).toISOString()
+			  				})
+		  				}
 		  			} else if (t.in_reply_to_status_id_str) {
 		  				okBooming.push({
 		  					id_source: t.id_str,
@@ -139,7 +141,24 @@ function harvest_idList() {
 		  if (batches.length > 0) {
 				queryNextBatch()
 			} else {
-				console.log(okBooming)
+				// Finalize
+				const outputDirPath = path.join(__dirname, '../../app/data');
+				const csvWriter = createCsvWriter({
+				  path: outputDirPath +'/okbooming.csv',
+				  alwaysQuote: true,
+				  header: [
+				    {id: 'date', title: 'Date'},
+				    {id: 'id_source', title: 'Booming tweet ID'},
+				    {id: 'user_id_source', title: 'Booming user ID'},
+				    {id: 'user_name_source', title: 'Booming user name'},
+				    {id: 'id_target', title: 'Boomed tweet ID'},
+				    {id: 'user_id_target', title: 'Boomed user ID'},
+				    {id: 'user_name_target', title: 'Boomed user name'}
+				  ]
+				});
+				csvWriter
+				  .writeRecords(okBooming)
+				  .then(()=> console.log('The OK Booming CSV file was written successfully'));
 			}
 		})
 	}
@@ -156,35 +175,4 @@ function gotTextContentOrdeal(text){
 		if (text.length > 20) return false
 		else return true
 	} else return false
-}
-
-function tweetObjectOrdeal(t){
-	// Must be a reply or a quote
-	if (t.in_reply_to_status_id_str == null && !t.is_quote_status) return false
-
-	var text = t.text
-
-	// Must have text and contain OK boomer (pics and URLs removed)
-	if (text == undefined || text.length < 8) return false
-
-	// Must contain OK Boomer
-	if (!text.match(/ok.?.?boomer/gi)) return false
-
-	// Remove 1 URL
-	text = text.replace(/https?:\/\/[^ ]*/i, '')
-
-	// Remove 1 image
-	text = text.replace(/pic\.twitter\.com\/[^ ]*/i, '')
-
-	// Remove mentions
-	var oldtext = text
-	text = oldtext.replace(/@[^ ]+ ?/gi, '')
-	while (text.length < oldtext.length) {
-		oldtext = text
-		text = oldtext.replace(/@[^ ]+ ?/gi, '')
-	}
-
-	// Then, it must not be too short
-	if (text.length > 20) return false
-	else return true
 }
