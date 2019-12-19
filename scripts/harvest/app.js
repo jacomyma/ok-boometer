@@ -59,54 +59,89 @@ function getOldTweets_to_idList() {
 
 function harvest_idList() {
 	let options = {}
-	options.limit = 100 // For testing purpose
-	options.bufferMaxSize = 50
+	options.limit = 10 // For testing purpose
+	options.batchSize = 100
+
 
 	let idListBuffer = []
-	const dataDirPath = path.join(__dirname, '../data');
+	let okBooming = []
+	let batches = []
+
+	const dataDirPath = path.join(__dirname, '../data')
 	fs.createReadStream(dataDirPath +'/got_id_list.csv')
 		.pipe(csv())
 	  .on('data', (row) => {
 	  	if (options.limit-->0) {
 	  		idListBuffer.push(row.id)
-	  		if (idListBuffer.length >= options.bufferMaxSize) {
-	  			flushBuffer()
-	  		}
 	  	}
 	  })
 	  .on('end', () => {
-			flushBuffer()
-	    console.log('File successfully processed');
+	    console.log('File successfully read');
+
+	    // Build batches
+	    let batch = []
+	    while (idListBuffer.length>0) {
+	    	batch.push(idListBuffer.pop())
+
+	    	if (batch.length >= options.batchSize) {
+	    		// Flush batch
+	    		batches.push(batch)
+	    		batch = []
+	    	}
+	    }
+	    // Flush in the end
+	    if (batch.length > 0) {
+	  		batches.push(batch)
+	  		batch = []
+	    }
+
+	    queryNextBatch()
 	  })
 
-	function flushBuffer() {
-		if (idListBuffer.length == 0) return
+	function queryNextBatch() {
+		var batch = batches.pop()
+		console.log('batch of '+batch.length)
+
 		var params = {
-		  id: idListBuffer.join(',')
+		  id: batch.join(',')
 		}
 
 		T.get('statuses/lookup', params, function(err, data, response) {
 		  if (!err) {
 		  	data.forEach(t => {
 		  		if (tweetObjectOrdeal(t)) {
-		  			console.log(t.text)
+		  			if (t.is_quote_status) {
+		  				okBooming.push({
+		  					id_source: t.id_str,
+		  					id_target: t.quoted_status_id_str,
+		  					user_id_source: t.user.id_str,
+		  					user_id_target: t.quoted_status.user.id_str,
+		  					user_name_source: t.user.screen_name,
+		  					user_name_target: t.quoted_status.user.screen_name,
+		  					date: (new Date(t.created_at)).toISOString()
+		  				})
+		  			} else if (t.in_reply_to_status_id_str) {
+		  				okBooming.push({
+		  					id_source: t.id_str,
+		  					id_target: t.in_reply_to_status_id_str,
+		  					user_id_source: t.user.id_str,
+		  					user_id_target: t.in_reply_to_user_id_str,
+		  					user_name_source: t.user.screen_name,
+		  					user_name_target: t.in_reply_to_screen_name,
+		  					date: (new Date(t.created_at)).toISOString()
+		  				})
+		  			}
 		  		}
-		  		// t.id_str
-		  		// t.in_reply_to_status_id_str
-		  		// t.in_reply_to_user_id_str
-		  		// t.in_reply_to_screen_name
-		  		// t.user.id_str
-		  		// t.user.screen_name
-		  		// t.text
-		  		// t.is_quote_status
-		  		// t.quoted_status_id_str
-		  		// t.quoted_status.user.id_str
 		  	})
 		  } else {
-		    console.log(err);
+		    console.log(err)
 		  }
+		  if (batches.length > 0) {
+				queryNextBatch()
+			} else {
+				console.log(okBooming)
+			}
 		})
-		idListBuffer = []
 	}
 }
 
