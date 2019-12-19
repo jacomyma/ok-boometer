@@ -67,19 +67,41 @@ angular.module('graphrecipes', [
   var ns = {}
   ns.loaded = false
   d3.csv("data/okbooming.csv").then(function(data) {
-    ns.data = {boomingList: data}
+    ns.data = {booming: data}
 
     // Consolidate dates
-    ns.data.boomingList.forEach(function(d){
+    ns.data.booming.forEach(function(d){
       d.time = Date.parse(d["Date"])/1000
     })
-    ns.data.boomingList.sort(function(a,b){return b.time-a.time})
+    ns.data.booming.sort(function(a,b){return b.time-a.time})
+
+    // Tweet index
+    ns.data.tweetIndex = {}
+    ns.data.booming.forEach(function(d){
+      ns.data.tweetIndex[d["Booming tweet ID"]] = d["Booming user ID"]
+      ns.data.tweetIndex[d["Boomed tweet ID"]] = d["Boomed user ID"]
+    })
+
+    // Username index
+    ns.data.usernameIndex = {}
+    ns.data.booming.forEach(function(d){
+      ns.data.usernameIndex[d["Booming user ID"]] = d["Booming user name"]
+      ns.data.usernameIndex[d["Boomed user ID"]] = d["Boomed user name"]
+    })
 
     // Aggregate by boomed
-    ns.data.topBoomedList = d3.nest()
+    ns.data.topBoomed = d3.nest()
       .key(function(d){ return d["Boomed user ID"] })
       .rollup(function(a){ return a.length })
-      .entries(ns.data.boomingList)
+      .entries(ns.data.booming)
+      .sort(function(a,b){ return b.value-a.value})
+
+
+    // Aggregate by boomed tweet
+    ns.data.topBoomedTweet = d3.nest()
+      .key(function(d){ return d["Boomed tweet ID"] })
+      .rollup(function(a){ return a.length })
+      .entries(ns.data.booming)
       .sort(function(a,b){ return b.value-a.value})
 
 
