@@ -67,14 +67,21 @@ angular.module('graphrecipes', [
   var ns = {}
   ns.loaded = false
   d3.csv("data/okbooming.csv").then(function(data) {
-    ns.data = {okbooming: data}
+    ns.data = {boomingList: data}
+
+    // Consolidate dates
+    ns.data.boomingList.forEach(function(d){
+      d.time = Date.parse(d["Date"])/1000
+    })
+    ns.data.boomingList.sort(function(a,b){return b.time-a.time})
 
     // Aggregate by boomed
     ns.data.topBoomedList = d3.nest()
       .key(function(d){ return d["Boomed user ID"] })
       .rollup(function(a){ return a.length })
-      .entries(ns.data.okbooming)
+      .entries(ns.data.boomingList)
       .sort(function(a,b){ return b.value-a.value})
+
 
     ns.loaded = true
     if (ns.cb) ns.cb(ns.data)
