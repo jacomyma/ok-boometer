@@ -6,19 +6,23 @@ const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
 
-got_to_id_list()
+const T = new Twitter(config);
 
-function got_to_id_list() {
+// getOldTweets_to_idList()
+harvest_idList()
+
+function getOldTweets_to_idList() {
 	let options = {}
 	options.limit = Infinity // For testing purpose
 
 	const outputDirPath = path.join(__dirname, '../data');
-	let idListStream = fs.createWriteStream(outputDirPath +'/got_id_list.txt');
+	let idListStream = fs.createWriteStream(outputDirPath +'/got_id_list.csv');
 	let rejectedStream = fs.createWriteStream(outputDirPath +'/got_rejected_log.txt');
 
 	// Read the GetOldTweets data
 	// joining path of directory 
 	const directoryPath = path.join(__dirname, '../data/got');
+	idListStream.write('id\n')
 	// passing directoryPath and callback function
 	fs.readdir(directoryPath, function (err, files) {
 	  //handling error
@@ -53,24 +57,44 @@ function got_to_id_list() {
 	})
 }
 
-const T = new Twitter(config);
+function harvest_idList() {
+	let options = {}
+	options.limit = 10 // For testing purpose
+	options.bufferMaxSize = 50
 
-/*
-var id_list = [20]
+	let idListBuffer = []
+	const dataDirPath = path.join(__dirname, '../data');
+	fs.createReadStream(dataDirPath +'/got_id_list.csv')
+		.pipe(csv())
+	  .on('data', (row) => {
+	  	if (options.limit-->0) {
+	  		idListBuffer.push(row.id)
+	  		if (idListBuffer.length >= options.bufferMaxSize) {
+	  			flushBuffer()
+	  		}
+	  	}
+	  })
+	  .on('end', () => {
+			flushBuffer()
+	    console.log('File successfully processed');
+	  })
 
-// Set up your search parameters
-var params = {
-  id: id_list.join(',')
+	function flushBuffer() {
+		if (idListBuffer.length == 0) return
+		var params = {
+		  id: idListBuffer.join(',')
+		}
+
+		T.get('statuses/lookup', params, function(err, data, response) {
+		  if (!err) {
+		  	console.log(data)
+		  } else {
+		    console.log(err);
+		  }
+		})
+		idListBuffer = []
+	}
 }
-
-T.get('statuses/lookup', params, function(err, data, response) {
-  if (!err) {
-  	console.log(data)
-  } else {
-    console.log(err);
-  }
-})
-*/
 
 function gotTextContentOrdeal(text){
 	if (text == undefined) return false
