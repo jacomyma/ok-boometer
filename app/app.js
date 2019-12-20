@@ -97,6 +97,13 @@ angular.module('graphrecipes', [
       .key(function(d){ return d["Boomed user ID"] })
       .rollup(function(a){ return a.length })
       .entries(ns.data.booming)
+      .map(function(d){
+        return {
+          id: d.key,
+          value: d.value,
+          name: ns.data.usernameIndex[d.key]
+        }
+      })
       .sort(function(a,b){ return b.value-a.value })
 
     // Aggregate by boomed tweet

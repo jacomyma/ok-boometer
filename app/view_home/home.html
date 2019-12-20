@@ -1,5 +1,12 @@
 <div layout-fill layout="column">
 	<ok-boometer-header></ok-boometer-header>
+	<div style="padding: 0px 12px;" layout="column" md-colors="{background: 'default-background-800'}">
+		<md-input-container class="md-primary md-icon-float" flex>
+      <label translate>SEARCH BOOMER</label>
+      <md-icon aria-label="search">search</md-icon>
+      <input ng-model="searchQuery" type="text">
+    </md-input-container>
+	</div>
 	<div flex md-colors="{background: 'default-background-200'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -7,14 +14,14 @@
 		<md-content ng-show="loaded" layout-fill layout="column">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
-	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in data.topBoomed" ng-href="#!/boomed/{{boomed.key}}">
+	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in data.topBoomed | filter:searchQuery" ng-href="#!/boomed/{{boomed.id}}">
 	          <lcd-meter score="boomed.value"></lcd-meter>
 	          <div class="md-list-item-text" layout="column">
 	            <h2
 	            	class="username"
 	            	style="font-size: 1.4em; padding-left: 6px;"
 	            	md-colors="{color: 'default-accent-200'}"
-	            >@{{ data.usernameIndex[boomed.key] }}</h2>
+	            >@{{ boomed.name }}</h2>
 	          </div>
 	        </md-list-item>
 		    </md-virtual-repeat-container>
