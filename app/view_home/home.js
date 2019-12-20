@@ -10,8 +10,16 @@ angular.module('okboometer.view_home', ['ngRoute'])
 })
 
 .controller('HomeCtrl', function($scope, $timeout, dataProvider) {
+	
+	$scope.data
+	$scope.loaded = false
+
 	dataProvider.onLoad(function(data){
-		console.log(data)
+		$timeout(function(){
+			console.log(data)
+			$scope.data = data
+			$scope.loaded = true
+		})
 	})
 	
 })
