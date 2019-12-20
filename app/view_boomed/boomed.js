@@ -14,7 +14,7 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
 	$scope.data
 	$scope.loaded = false
 	$scope.boomedId = decodeURIComponent($routeParams.boomed)
-	
+
 	dataProvider.onLoad(function(data){
 		$timeout(function(){
 			console.log(data)
@@ -22,6 +22,9 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
 			$scope.loaded = true
 
 			$scope.boomedTweets = Object.keys($scope.data.boomedTweetsByUser[$scope.boomedId])
+				.sort(function(a, b){
+					return $scope.data.boomedTweetsByUser[$scope.boomedId][b] - $scope.data.boomedTweetsByUser[$scope.boomedId][a]
+				})
 		})
 	})
 	

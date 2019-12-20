@@ -88,13 +88,12 @@
 }
 
 .lcd-meter-container {
-	margin: 4px;
+	margin: 6px;
 	background-color: #dae300;
 	padding: 3px 6px;
-	border: 8px solid #333;
-	border-radius: 12px;
-
-	box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2), 0 6px 18px 0 rgba(0,0,0,0.19), inset 0px 2px 8px rgba(0,0,0,0.3);
+	/*border: 8px solid #363c1f;*/
+	border-radius: 4px;
+	box-shadow: 0 6px 12px 0 rgba(0,0,0,0.1), 0 6px 18px 0 rgba(0,0,0,0.08), inset 0px 2px 8px rgba(0,0,0,0.1);
 }
 
 .lcd-meter {
@@ -141,7 +140,6 @@
 }
 
 .ok-boometer-header h1 a {
-	color: #333;
 	text-decoration: none;
 }
 

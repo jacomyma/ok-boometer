@@ -5,13 +5,23 @@
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
 		<md-content ng-show="loaded" layout="column" style="padding: 12px">
-			<h2 class="username" style="font-size: 3em;">@{{data.usernameIndex[boomedId]}}</h2>
+			
+			<div layout="row">
+				<div style="width:500px">
+					<h2 class="username" style="font-size: 3em;">@{{data.usernameIndex[boomedId]}}</h2>
+				</div>
+				<div style="padding: 6px;">
+					<lcd-meter score="data.boomedScoreByUser[boomedId]"></lcd-meter>
+				</div>
+			</div>
+			
 			<div ng-repeat="tweetId in boomedTweets" layout="row">
 				<tweet tweet-id="tweetId"></tweet>
 				<div style="padding: 6px;">
 					<lcd-meter score="data.boomedTweetsByUser[boomedId][tweetId]"></lcd-meter>
 				</div>
 			</div>
+
 		</md-content>
 	</div>
 </div>

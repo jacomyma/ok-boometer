@@ -30,20 +30,21 @@ angular.module('graphrecipes', [
 
   // Material theme
   $mdThemingProvider.theme('default')
-    .primaryPalette('teal', {
+    .primaryPalette('light-green', {
       'default': '400',   // by default use shade 400 from the pink palette for primary intentions
       'hue-1': '100',     // use shade 100 for the <code>md-hue-1</code> class
       'hue-2': '600',     // use shade 600 for the <code>md-hue-2</code> class
       'hue-3': 'A100'     // use shade A100 for the <code>md-hue-3</code> class
     })
-    .accentPalette('blue', {
+    .accentPalette('yellow', {
       'default': '300'
     })
-    .warnPalette('pink')
-    .backgroundPalette('blue-grey', {
-      'default': '100',
+    .warnPalette('orange')
+    .backgroundPalette('light-green', {
+      'default': '900',
       'hue-1': '50'
     })
+    .dark();
 })
 
 // Filters
@@ -98,7 +99,6 @@ angular.module('graphrecipes', [
       .entries(ns.data.booming)
       .sort(function(a,b){ return b.value-a.value })
 
-
     // Aggregate by boomed tweet
     ns.data.topBoomedTweet = d3.nest()
       .key(function(d){ return d["Boomed tweet ID"] })
@@ -110,6 +110,12 @@ angular.module('graphrecipes', [
     ns.data.boomedTweetsByUser = d3.nest()
       .key(function(d){ return d["Boomed user ID"] })
       .key(function(d){ return d["Boomed tweet ID"] })
+      .rollup(function(a){ return a.length })
+      .object(ns.data.booming)
+
+    // Boomed score by boomed
+    ns.data.boomedScoreByUser = d3.nest()
+      .key(function(d){ return d["Boomed user ID"] })
       .rollup(function(a){ return a.length })
       .object(ns.data.booming)
 
