@@ -16,12 +16,14 @@ window.d3 = d3;
 
 // Requiring own modules
 require('./view_home/home.js');
+require('./view_boomed/boomed.js');
 
 // Declare app level module which depends on views, and components
 angular.module('graphrecipes', [
   'ngRoute',
   'ngMaterial',
   'okboometer.view_home',
+  'okboometer.view_boomed',
 ])
 .config(function($routeProvider, $mdThemingProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
@@ -94,7 +96,7 @@ angular.module('graphrecipes', [
       .key(function(d){ return d["Boomed user ID"] })
       .rollup(function(a){ return a.length })
       .entries(ns.data.booming)
-      .sort(function(a,b){ return b.value-a.value})
+      .sort(function(a,b){ return b.value-a.value })
 
 
     // Aggregate by boomed tweet
@@ -102,9 +104,16 @@ angular.module('graphrecipes', [
       .key(function(d){ return d["Boomed tweet ID"] })
       .rollup(function(a){ return a.length })
       .entries(ns.data.booming)
-      .sort(function(a,b){ return b.value-a.value})
+      .sort(function(a,b){ return b.value-a.value })
 
+    // Boomed tweets by boomed
+    ns.data.boomedTweetsByUser = d3.nest()
+      .key(function(d){ return d["Boomed user ID"] })
+      .key(function(d){ return d["Boomed tweet ID"] })
+      .rollup(function(a){ return a.length })
+      .object(ns.data.booming)
 
+    window.data = ns.data
     ns.loaded = true
     if (ns.cb) ns.cb(ns.data)
   })
@@ -117,4 +126,22 @@ angular.module('graphrecipes', [
 
 
 // Directives
-
+.directive('tweet', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+      tweetId: '=',
+    },
+    templateUrl: 'directive_templates/tweet.html',
+    link: function($scope, el, attrs) {
+      $timeout(function(){
+        $timeout(function(){
+          twttr.widgets.createTweet($scope.tweetId, document.getElementById('tweet-'+$scope.tweetId), {theme:'dark'})
+            .then(function(){
+              document.getElementById('tweet-placeholder-'+$scope.tweetId).innerHTML = ''              
+            })
+        })
+      })
+    }
+  }
+})

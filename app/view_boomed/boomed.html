@@ -1,0 +1,16 @@
+<div layout-fill layout="column">
+	<div>
+		<h1>OK BOOMETER - Boomed</h1>
+	</div>
+	<div flex md-colors="{background: 'default-background-50'}">
+		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
+			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+		<md-content ng-show="loaded" layout="column" style="padding: 12px">
+			<h3>{{data.usernameIndex[boomedId]}}</h3>
+			<div ng-repeat="tweetId in boomedTweets">
+				<tweet tweet-id="tweetId"></tweet>
+			</div>
+		</md-content>
+	</div>
+</div>
