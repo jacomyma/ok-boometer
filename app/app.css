@@ -91,24 +91,23 @@
 	margin: 6px;
 	background-color: #dae300;
 	padding: 3px 6px;
-	/*border: 8px solid #363c1f;*/
 	border-radius: 4px;
 	box-shadow: 0 6px 12px 0 rgba(0,0,0,0.1), 0 6px 18px 0 rgba(0,0,0,0.08), inset 0px 2px 8px rgba(0,0,0,0.1);
 }
 
 .lcd-meter {
-	width: 220px;
-	height: 80px;
+	width: 160px;
+	height: 52px;
 	color: #414302;
 	font-family: digital-7_monoitalic;
-	font-size: 4em;
+	font-size: 3.2em;
 	position:relative;
 	text-align: end;
 }
 
 .lcd-meter .lcd-overlay {
-	width: 220px;
-	height: 80px;
+	width: 160px;
+	height: 52px;
 	position:absolute;
  	right:0px;
 	bottom:0px;
@@ -116,11 +115,11 @@
 
 .lcd-meter .lcd-background {
 	opacity: 0.05;
-	line-height: 80px;
+	line-height: 52px;
 }
 
 .lcd-meter .lcd-score {
-	line-height: 80px;
+	line-height: 52px;
 }
 
 .lcd-meter .lcd-icon {
@@ -129,7 +128,7 @@
 }
 
 .lcd-meter .lcd-icon img{
-	height: 80px;
+	height: 52px;
 }
 
 .ok-boometer-header h1 {
