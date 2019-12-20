@@ -1,6 +1,6 @@
 <div layout-fill layout="column">
 	<div>
-		<h1>OK BOOMETER {{loaded}}</h1>
+		<h1>OK BOOMETER</h1>
 	</div>
 	<div flex md-colors="{background: 'default-background-50'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
@@ -9,12 +9,11 @@
 		<md-content ng-show="loaded" layout-fill layout="column">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
-	        <md-list-item class="md-3-line" md-virtual-repeat="boomed in data.topBoomed" ng-click="null">
-	          <img ng-src="{{boomed.face}}?{{$index}}" class="md-avatar" alt="{{boomed.key}}" />
+	        <md-list-item class="md-2-line" md-virtual-repeat="boomed in data.topBoomed" ng-click="null">
+	          <div class="rank-avatar">{{$index+1}}</div>
 	          <div class="md-list-item-text" layout="column">
-	            <h3>{{ boomed.key }}</h3>
-	            <h4>{{ boomed.value }}</h4>
-	            <p>{{ boomed.notes }}</p>
+	            <h3>{{ data.usernameIndex[boomed.key] }}</h3>
+	            <p>{{ boomed.value }}</p>
 	          </div>
 	        </md-list-item>
 		    </md-virtual-repeat-container>

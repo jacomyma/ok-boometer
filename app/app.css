@@ -1,0 +1,25 @@
+.rank-avatar {
+	background-color: rgba(255, 255, 255, 0.6);
+	font-size: 1.2rem;
+	text-align: center;
+
+	line-height: 1.4;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-font-smoothing: antialiased;
+	margin: auto;
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	fill: currentColor;
+	height: 24px;
+	width: 24px;
+	min-height: 24px;
+	min-width: 24px;
+	margin-bottom: 8px;
+	margin-right: 16px;
+	border-radius: 50%;
+	box-sizing: content-box;
+	padding: 8px;
+	margin-top: 12px;
+	align-self: flex-start;
+}
