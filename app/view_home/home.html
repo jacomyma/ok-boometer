@@ -7,11 +7,14 @@
 		<md-content ng-show="loaded" layout-fill layout="column">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
-	        <md-list-item class="md-2-line" md-virtual-repeat="boomed in data.topBoomed" ng-href="#!/boomed/{{boomed.key}}">
-	          <div class="rank-avatar">{{$index+1}}</div>
+	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in data.topBoomed" ng-href="#!/boomed/{{boomed.key}}">
+	          <lcd-meter score="boomed.value"></lcd-meter>
 	          <div class="md-list-item-text" layout="column">
-	            <h3 class="username">@{{ data.usernameIndex[boomed.key] }}</h3>
-	            <p>{{ boomed.value }}</p>
+	            <h2
+	            	class="username"
+	            	style="font-size: 1.4em; padding-left: 6px;"
+	            	md-colors="{color: 'default-accent-200'}"
+	            >@{{ data.usernameIndex[boomed.key] }}</h2>
 	          </div>
 	        </md-list-item>
 		    </md-virtual-repeat-container>
