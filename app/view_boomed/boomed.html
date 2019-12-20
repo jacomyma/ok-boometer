@@ -4,24 +4,34 @@
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
-		<md-content ng-show="loaded" layout="column" style="padding: 12px">
-			
-			<div layout="row">
-				<div style="width:500px">
-					<h2 class="username" style="font-size: 3em;">@{{data.usernameIndex[boomedId]}}</h2>
+		<div layout-fill ng-show="loaded" style="overflow-y: auto;">
+			<md-content layout="column" layout-align="center">
+				
+				<div layout="column" layout-gt-sm="row" md-colors="{background: 'default-background-700', color: 'default-accent-200'}">
+					<div show-gt-sm flex></div>
+					<div style="width:500px">
+						<h2
+							class="username"
+							style="font-size: 2em; text-align: center;"
+						>@{{data.usernameIndex[boomedId]}}</h2>
+					</div>
+					<div style="padding: 6px;">
+						<lcd-meter score="data.boomedScoreByUser[boomedId]"></lcd-meter>
+					</div>
+					<div show-gt-sm flex></div>
 				</div>
-				<div style="padding: 6px;">
-					<lcd-meter score="data.boomedScoreByUser[boomedId]"></lcd-meter>
+				
+				<div ng-repeat="tweetId in boomedTweets" layout="column" layout-gt-sm="row" >
+					<div show-gt-sm flex></div>
+					<tweet tweet-id="tweetId"></tweet>
+					<div style="padding: 6px;">
+						<lcd-meter score="data.boomedTweetsByUser[boomedId][tweetId]"></lcd-meter>
+					</div>
+					<div hide-gt-sm style="height: 48px;"></div>
+					<div show-gt-sm flex></div>
 				</div>
-			</div>
-			
-			<div ng-repeat="tweetId in boomedTweets" layout="row">
-				<tweet tweet-id="tweetId"></tweet>
-				<div style="padding: 6px;">
-					<lcd-meter score="data.boomedTweetsByUser[boomedId][tweetId]"></lcd-meter>
-				</div>
-			</div>
 
-		</md-content>
+			</md-content>
+		</div>
 	</div>
 </div>

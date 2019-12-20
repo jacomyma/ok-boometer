@@ -156,10 +156,15 @@ angular.module('graphrecipes', [
         $timeout(function(){
           twttr.widgets.createTweet($scope.tweetId, document.getElementById('tweet-'+$scope.tweetId), {theme:'dark'})
             .then(function(){
-              document.getElementById('tweet-placeholder-'+$scope.tweetId).innerHTML = ''              
+              document.getElementById('tweet-placeholder-'+$scope.tweetId).innerHTML = ''
+              checkMissingTweet()
             })
         })
       })
+
+      function checkMissingTweet() {
+        // TODO
+      }
     }
   }
 })
