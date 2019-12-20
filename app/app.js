@@ -126,6 +126,18 @@ angular.module('graphrecipes', [
 
 
 // Directives
+
+.directive('okBoometerHeader', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+    },
+    templateUrl: 'directive_templates/header.html',
+    link: function($scope, el, attrs) {
+    }
+  }
+})
+
 .directive('tweet', function($timeout) {
   return {
     restrict: 'E',

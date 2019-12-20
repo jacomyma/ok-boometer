@@ -92,5 +92,21 @@
 	background-color: #414302;
 	color: #dae300;
 	font-family: digital-7_monoitalic;
-	font-size: 48px;
+	font-size: 4em;
+}
+
+.ok-boometer-header h1 {
+	font-family: Merienda One;
+	font-weight: 300;
+	font-size: 3.6em;
+	margin: 6px;
+}
+
+.ok-boometer-header h1 a {
+	color: #333;
+	text-decoration: none;
+}
+
+.username {
+	font: normal normal 16px/1.4 Helvetica,Roboto,"Segoe UI",Calibri,sans-serif;
 }

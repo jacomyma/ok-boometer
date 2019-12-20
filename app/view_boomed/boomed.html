@@ -1,13 +1,11 @@
 <div layout-fill layout="column">
-	<div>
-		<h1>OK BOOMETER - Boomed</h1>
-	</div>
+	<ok-boometer-header></ok-boometer-header>
 	<div flex md-colors="{background: 'default-background-50'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
 		<md-content ng-show="loaded" layout="column" style="padding: 12px">
-			<h3>{{data.usernameIndex[boomedId]}}</h3>
+			<h2 class="username" style="font-size: 3em;">@{{data.usernameIndex[boomedId]}}</h2>
 			<div ng-repeat="tweetId in boomedTweets" layout="row">
 				<tweet tweet-id="tweetId"></tweet>
 				<div style="padding: 6px;">
