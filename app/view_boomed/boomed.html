@@ -9,7 +9,7 @@
 			<div ng-repeat="tweetId in boomedTweets" layout="row">
 				<tweet tweet-id="tweetId"></tweet>
 				<div style="padding: 6px;">
-					<div class="lcd-meter">{{data.boomedTweetsByUser[boomedId][tweetId]}}</div>
+					<lcd-meter score="data.boomedTweetsByUser[boomedId][tweetId]"></lcd-meter>
 				</div>
 			</div>
 		</md-content>

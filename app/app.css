@@ -88,11 +88,31 @@
 }
 
 .lcd-meter {
-	padding: 3px 6px;
-	background-color: #414302;
-	color: #dae300;
+	width: 180px;
+	height: 50px;
+	color: #414302;
+	background-color: #dae300;
 	font-family: digital-7_monoitalic;
 	font-size: 4em;
+	position:relative;
+	text-align: end;
+}
+
+.lcd-meter .lcd-background {
+	width: 180px;
+	height: 50px;
+	position:absolute;
+ 	right:0px;
+	bottom:0px;
+	opacity: 0.1;
+}
+
+.lcd-meter .lcd-overlay {
+	width: 180px;
+	height: 50px;
+	position:absolute;
+ 	right:0px;
+	bottom:0px;
 }
 
 .ok-boometer-header h1 {

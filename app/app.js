@@ -157,3 +157,15 @@ angular.module('graphrecipes', [
     }
   }
 })
+
+.directive('lcdMeter', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+      score: '=',
+    },
+    templateUrl: 'directive_templates/lcdMeter.html',
+    link: function($scope, el, attrs) {
+    }
+  }
+})
