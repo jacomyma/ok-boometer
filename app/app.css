@@ -73,8 +73,8 @@
 .tweet-placeholder {
 	border: 1.5px solid rgba(255, 255, 255, 0.4);
 	background-color: rgba(0, 0, 0, 0.6);
-	height: 100px;
-	margin-bottom: 12px;
+	height: 120px;
+	margin-top: 12px;
 	border-radius: 4px;
 	width: 497px;
 
@@ -87,38 +87,56 @@
   background-size: 1200px 100px;
 }
 
-.lcd-meter {
-	width: 180px;
-	height: 50px;
-	color: #414302;
+.lcd-meter-container {
+	margin: 4px;
 	background-color: #dae300;
+	padding: 3px 6px;
+	border: 8px solid #333;
+	border-radius: 12px;
+
+	box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2), 0 6px 18px 0 rgba(0,0,0,0.19), inset 0px 2px 8px rgba(0,0,0,0.3);
+}
+
+.lcd-meter {
+	width: 220px;
+	height: 80px;
+	color: #414302;
 	font-family: digital-7_monoitalic;
 	font-size: 4em;
 	position:relative;
 	text-align: end;
 }
 
-.lcd-meter .lcd-background {
-	width: 180px;
-	height: 50px;
+.lcd-meter .lcd-overlay {
+	width: 220px;
+	height: 80px;
 	position:absolute;
  	right:0px;
 	bottom:0px;
-	opacity: 0.1;
 }
 
-.lcd-meter .lcd-overlay {
-	width: 180px;
-	height: 50px;
-	position:absolute;
- 	right:0px;
-	bottom:0px;
+.lcd-meter .lcd-background {
+	opacity: 0.05;
+	line-height: 80px;
+}
+
+.lcd-meter .lcd-score {
+	line-height: 80px;
+}
+
+.lcd-meter .lcd-icon {
+	text-align: start;
+	left: -3px;
+}
+
+.lcd-meter .lcd-icon img{
+	height: 80px;
 }
 
 .ok-boometer-header h1 {
 	font-family: Merienda One;
 	font-weight: 300;
-	font-size: 3.6em;
+	font-size: 2.4em;
 	margin: 6px;
 }
 
