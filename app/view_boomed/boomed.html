@@ -8,8 +8,11 @@
 		</div>
 		<md-content ng-show="loaded" layout="column" style="padding: 12px">
 			<h3>{{data.usernameIndex[boomedId]}}</h3>
-			<div ng-repeat="tweetId in boomedTweets">
+			<div ng-repeat="tweetId in boomedTweets" layout="row">
 				<tweet tweet-id="tweetId"></tweet>
+				<div style="padding: 6px;">
+					<div class="lcd-meter">{{data.boomedTweetsByUser[boomedId][tweetId]}}</div>
+				</div>
 			</div>
 		</md-content>
 	</div>

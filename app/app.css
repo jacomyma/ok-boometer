@@ -1,3 +1,39 @@
+/* fonts */
+
+@font-face {
+  font-family: 'digital-7_italicitalic';
+  src: url('font/digital-7-web-font-kit/digital-7_italic-webfont.woff2') format('woff2'),
+       url('font/digital-7-web-font-kit/digital-7_italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'digital-7_monoitalic';
+  src: url('font/digital-7-web-font-kit/digital-7_mono_italic-webfont.woff2') format('woff2'),
+       url('font/digital-7-web-font-kit/digital-7_mono_italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'digital-7_monomono';
+  src: url('font/digital-7-web-font-kit/digital-7_mono-webfont.woff2') format('woff2'),
+       url('font/digital-7-web-font-kit/digital-7_mono-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'digital-7regular';
+  src: url('font/digital-7-web-font-kit/digital-7-webfont.woff2') format('woff2'),
+       url('font/digital-7-web-font-kit/digital-7-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* other */
+
 .rank-avatar {
 	background-color: rgba(255, 255, 255, 0.6);
 	font-size: 1.2rem;
@@ -49,4 +85,12 @@
   animation-timing-function: linear;
   background: linear-gradient(to right, #000 8%, #333 18%, #000 33%);
   background-size: 1200px 100px;
+}
+
+.lcd-meter {
+	padding: 3px 6px;
+	background-color: #414302;
+	color: #dae300;
+	font-family: digital-7_monoitalic;
+	font-size: 48px;
 }
