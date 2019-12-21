@@ -43,7 +43,7 @@ angular.module('graphrecipes', [
     })
     .warnPalette('orange')
     .backgroundPalette('grey', {
-      'default': '900'
+      'default': '800'
     })
     .dark();
 })
