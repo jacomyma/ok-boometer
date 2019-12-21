@@ -4,7 +4,10 @@ const Twitter = require('twitter');
 const config = require('./config.js');
 const path = require('path');
 const fs = require('fs');
+const csv = require('csv-parser');
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
 
 const liveDirPath = path.join(__dirname, '../../app/data');
 const backupDirPath = path.join(__dirname, '../data/stream');
@@ -27,7 +30,10 @@ const csvStringifier = createCsvStringifier({
   ]
 })
 
-// test() // Write once in the file to check proper CSV row is added
+// Recreate live file
+fs.writeFile(liveFile, csvStringifier.getHeaderString(), function (err) {
+  if (err) throw err;
+})
 
 var stream = T.stream('statuses/filter', {track: searchQuery});
 stream.on('data', function(t) {
@@ -99,35 +105,45 @@ function recordRow(row) {
 	let currentMinute = (new Date()).getMinutes()
   if (minute != currentMinute || !fs.existsSync(liveFile)) {
   	minute = currentMinute
-  	// recreate file
-	  fs.writeFile(liveFile, csvStringifier.getHeaderString(), function (err) {
-		  if (err) throw err;
-		  fs.appendFile(liveFile, row, function (err) {
-			  if (err) throw err;
-			})
-		})
+  	let now = new Date()
+  	// before recreating file, let's retrieve its content
+  	let csvData = []
+  	fs.createReadStream(liveFile)
+			.pipe(csv())
+		  .on('data', (row) => {
+		  	// We add the row if its time is recent enough
+		  	let then = new Date(row["Date"])
+		  	if (now-then<120000) { // 2 minutes
+			  	csvData.push(row)
+		  	}
+		  })
+		  .on('end', () => {
+		    // recreate file
+		    const csvWriter = createCsvWriter({
+				  path: liveFile,
+				  alwaysQuote: true,
+				  header: [
+				    {id: 'date', title: 'Date'},
+				    {id: 'id_source', title: 'Booming tweet ID'},
+				    {id: 'user_id_source', title: 'Booming user ID'},
+				    {id: 'user_name_source', title: 'Booming user name'},
+				    {id: 'id_target', title: 'Boomed tweet ID'},
+				    {id: 'user_id_target', title: 'Boomed user ID'},
+				    {id: 'user_name_target', title: 'Boomed user name'}
+				  ]
+				})
+		    csvWriter
+				  .writeRecords(csvData)
+				  .then(()=>{
+				  	fs.appendFile(liveFile, row, function (err) {
+						  if (err) throw err;
+						})
+				  })
+		  })
   } else {
   	// Add row
   	fs.appendFile(liveFile, row, function (err) {
 		  if (err) throw err;
 		});
   }
-}
-
-// TEST
-function test() {
-	let row = csvStringifier.stringifyRecords([{
-		id_source: 'AAA',
-		id_target: 'BBB',
-		user_id_source: 'CCC',
-		user_id_target: 'DDD',
-		user_name_source: 'EEE',
-		user_name_target: 'FFF',
-		date: 'GGG'
-	}])
-	// Add row to the data
-	fs.appendFile(liveDirPath +'/okbooming.csv', row, function (err) {
-	  if (err) throw err;
-	  console.log('...file updated');
-	});
 }
