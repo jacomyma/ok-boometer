@@ -17,6 +17,7 @@ window.d3 = d3;
 // Requiring own modules
 require('./view_home/home.js');
 require('./view_boomed/boomed.js');
+require('./view_boomedTweets/boomedTweets.js');
 
 // Declare app level module which depends on views, and components
 angular.module('graphrecipes', [
@@ -24,6 +25,7 @@ angular.module('graphrecipes', [
   'ngMaterial',
   'okboometer.view_home',
   'okboometer.view_boomed',
+  'okboometer.view_boomedTweets',
 ])
 .config(function($routeProvider, $mdThemingProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
@@ -31,7 +33,7 @@ angular.module('graphrecipes', [
   // Material theme
   $mdThemingProvider.theme('default')
     .primaryPalette('light-green', {
-      'default': '400',   // by default use shade 400 from the pink palette for primary intentions
+      'default': '600',   // by default use shade 400 from the pink palette for primary intentions
       'hue-1': '100',     // use shade 100 for the <code>md-hue-1</code> class
       'hue-2': '600',     // use shade 600 for the <code>md-hue-2</code> class
       'hue-3': 'A100'     // use shade A100 for the <code>md-hue-3</code> class
@@ -40,9 +42,8 @@ angular.module('graphrecipes', [
       'default': '300'
     })
     .warnPalette('orange')
-    .backgroundPalette('light-green', {
-      'default': '900',
-      'hue-1': '50'
+    .backgroundPalette('grey', {
+      'default': '900'
     })
     .dark();
 })
@@ -111,6 +112,12 @@ angular.module('graphrecipes', [
       .key(function(d){ return d["Boomed tweet ID"] })
       .rollup(function(a){ return a.length })
       .entries(ns.data.booming)
+      .map(function(d){
+        return {
+          id: d.key,
+          value: d.value
+        }
+      })
       .sort(function(a,b){ return b.value-a.value })
 
     // Boomed tweets by boomed

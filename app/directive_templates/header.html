@@ -1,10 +1,25 @@
-<div class="ok-boometer-header" md-colors="{background: 'default-background-100'}" layout="row" layout-fill>
-	<div style="width: 80px;">
-		<a href="#!/"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
+<div layout="column" layout-fill >
+	<div class="ok-boometer-header" layout="row" md-colors="{background: 'default-accent-A100'}">
+		<div style="width: 80px;">
+			<a href="#!/"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
+		</div>
+		<div>
+			<h1>
+				<a href="#!/" md-colors="{color: 'default-primary-900'}">OK Boometer</a>
+			</h1>
+		</div>
 	</div>
-	<div>
-		<h1>
-			<a href="#!/" md-colors="{color: 'default-primary-900'}">OK Boometer</a>
-		</h1>
-	</div>
+	<md-nav-bar
+    md-no-ink-bar="disableInkBar"
+    md-selected-nav-item="$parent.currentNavItem"
+    nav-bar-aria-label="navigation links"
+    class="md-primary"
+  >
+    <md-nav-item md-nav-href="#!/" name="Boomed">
+      Top boomers
+    </md-nav-item>
+    <md-nav-item md-nav-href="#!/boomedTweets" name="BoomedTweets">
+      Top tweets
+    </md-nav-item>
+  </md-nav-bar>
 </div>

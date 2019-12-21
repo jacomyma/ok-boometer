@@ -11,6 +11,7 @@ angular.module('okboometer.view_home', ['ngRoute'])
 
 .controller('HomeCtrl', function($scope, $timeout, dataProvider) {
 	
+	$scope.currentNavItem = "Boomed"
 	$scope.data
 	$scope.loaded = false
 
