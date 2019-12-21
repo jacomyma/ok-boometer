@@ -18,13 +18,14 @@
   <link href="https://fonts.googleapis.com/css?family=Merienda+One|Roboto&display=swap" rel="stylesheet">
 
 </head>
-<body>
+<body style="overflow: hidden">
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
   <div ng-view layout="column" layout-fill></div>
+  <img id="avocado" src="img/avocado-color.svg" style="width:180px; display:none; position:absolute; z-index: 10">
 
   <script src="bundle.js"></script>
 
