@@ -102,6 +102,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
 
   	avocadoLoop = $interval(updateAvocado, 33)
 		$scope.$on('$destroy', function() {
+			resetAvocado()
 	    // Make sure that the interval is destroyed
 	    if (angular.isDefined(avocadoLoop)) {
 	      $interval.cancel(avocadoLoop)
