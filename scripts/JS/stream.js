@@ -113,7 +113,7 @@ function recordRow(row) {
 		  .on('data', (row) => {
 		  	// We add the row if its time is recent enough
 		  	let then = new Date(row["Date"])
-		  	if (now-then<120000) { // 2 minutes
+		  	if (now-then<10*60000) { // 10 minutes
 			  	csvData.push(row)
 		  	}
 		  })

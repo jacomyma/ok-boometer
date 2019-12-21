@@ -17,7 +17,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
 	// Set up initial loop
 	var liveLoop
 	$timeout(function(){
-		liveLoop = $interval(updateLive, 5000)
+		liveLoop = $interval(updateLive, 10000)
 		$scope.$on('$destroy', function() {
 	    // Make sure that the interval is destroyed
 	    if (angular.isDefined(liveLoop)) {
@@ -32,14 +32,13 @@ angular.module('okboometer.view_live', ['ngRoute'])
 		// Load the live file
 		d3.csv("data/live_booming.csv?date="+(new Date()))
 			.then(function(data) {
-				console.log(data)
 				var now = new Date()
 
 				data = data
 					// Remove those too old (>90 sec)
 					.filter(function(row){
 						var then = new Date(row['Date'])
-						return now-then<(90000) // 90 seconds
+						return now-then<(10*60000) // 10 minutes
 					})
 					// Compare with memory to remove the already used ones
 					.filter(function(row){
