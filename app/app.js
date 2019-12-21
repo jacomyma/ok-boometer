@@ -18,6 +18,7 @@ window.d3 = d3;
 require('./view_home/home.js');
 require('./view_boomed/boomed.js');
 require('./view_boomedTweets/boomedTweets.js');
+require('./view_live/live.js');
 
 // Declare app level module which depends on views, and components
 angular.module('graphrecipes', [
@@ -26,6 +27,7 @@ angular.module('graphrecipes', [
   'okboometer.view_home',
   'okboometer.view_boomed',
   'okboometer.view_boomedTweets',
+  'okboometer.view_live',
 ])
 .config(function($routeProvider, $mdThemingProvider) {
   $routeProvider.otherwise({redirectTo: '/'});

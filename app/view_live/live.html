@@ -1,0 +1,11 @@
+<div layout-fill layout="column">
+	<ok-boometer-header></ok-boometer-header>
+	<div flex md-colors="{background: 'default-background-200'}">
+		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
+			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+		<md-content ng-show="loaded" layout-fill layout="column">
+			TODO
+		</md-content>
+	</div>
+</div>
