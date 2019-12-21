@@ -4,8 +4,10 @@
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
-		<md-content ng-show="loaded" layout-fill layout="column">
-			TODO
+		<md-content ng-show="loaded" layout-fill layout="column" layout-align="center center">
+			<div ng-if="booming">
+				<tweet tweet-id="$parent.booming['Boomed tweet ID']"></tweet>
+			</div>
 		</md-content>
 	</div>
 </div>

@@ -65,7 +65,7 @@ angular.module('graphrecipes', [
 // Services
 .factory('cache', function(){
   var ns = {}
-  ns.recipes = {}
+  ns.seenBoomings = {}
   return ns
 })
 
@@ -168,15 +168,23 @@ angular.module('graphrecipes', [
     },
     templateUrl: 'directive_templates/tweet.html',
     link: function($scope, el, attrs) {
-      $timeout(function(){
-        $timeout(function(){
-          twttr.widgets.createTweet($scope.tweetId, document.getElementById('tweet-'+$scope.tweetId), {theme:'dark'})
-            .then(function(){
-              document.getElementById('tweet-placeholder-'+$scope.tweetId).innerHTML = ''
-              checkMissingTweet()
-            })
-        })
+      $scope.$watch('tweetId', function(){
+        loadWidget()
       })
+
+      function loadWidget() {
+        document.getElementById('tweet-'+$scope.tweetId).innerHTML = ''
+        document.getElementById('tweet-placeholder-'+$scope.tweetId).style.display = true
+        $timeout(function(){
+          $timeout(function(){
+            twttr.widgets.createTweet($scope.tweetId, document.getElementById('tweet-'+$scope.tweetId), {theme:'dark'})
+              .then(function(){
+                document.getElementById('tweet-placeholder-'+$scope.tweetId).style.display = 'none'
+                checkMissingTweet()
+              })
+          })
+        })
+      }
 
       function checkMissingTweet() {
         // TODO
