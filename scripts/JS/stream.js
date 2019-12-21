@@ -6,10 +6,13 @@ const path = require('path');
 const fs = require('fs');
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 
+const liveDirPath = path.join(__dirname, '../../app/data');
+const backupDirPath = path.join(__dirname, '../data/stream');
+const liveFile = liveDirPath+'/live_booming.csv'
+
 const T = new Twitter(config);
 const searchQuery = 'ok boomer'
-// const searchQuery = 'okboomer OR "ok boomer" OR okboomers OR "ok boomers"'
-const outputDirPath = path.join(__dirname, '../../app/data');
+let minute = (new Date()).getMinutes()
 
 const csvStringifier = createCsvStringifier({
   alwaysQuote: true,
@@ -57,12 +60,8 @@ stream.on('data', function(t) {
 			console.log('...rejected (incomplete data).')
 		}
 		if (row) {
-			console.log('...valid! '+t.text)
-			// Add row to the data
-			fs.appendFile(outputDirPath +'/okbooming.csv', row, function (err) {
-			  if (err) throw err;
-			  console.log('...data updated');
-			});
+			console.log('...VALID '+t.text)
+			recordRow(row)
 		}
 	} else {
 		console.log('...rejected (criteria not met). '+t.text)
@@ -73,6 +72,48 @@ stream.on('error', function(error) {
   throw error;
 });
  
+function recordRow(row) {
+	// Add row to the live data
+	fs.appendFile(liveDirPath +'/okbooming.csv', row, function (err) {
+	  if (err) throw err;
+	});
+
+	// Add row to the backup data
+	// The file is daily, so we check if we need to create a new file.
+	let backupFile = backupDirPath+'/'+((new Date()).toDateString())+'.csv'
+	if (!fs.existsSync(backupFile)) {
+    // file does not exist
+	  fs.writeFile(backupFile, csvStringifier.getHeaderString(), function (err) {
+		  if (err) throw err;
+		  fs.appendFile(backupFile, row, function (err) {
+			  if (err) throw err;
+			})
+		})
+  } else {
+	  fs.appendFile(backupFile, row, function (err) {
+		  if (err) throw err;
+		})
+  }
+
+  // Add row to the live data instant buffer
+	let currentMinute = (new Date()).getMinutes()
+  if (minute != currentMinute || !fs.existsSync(liveFile)) {
+  	minute = currentMinute
+  	// recreate file
+	  fs.writeFile(liveFile, csvStringifier.getHeaderString(), function (err) {
+		  if (err) throw err;
+		  fs.appendFile(liveFile, row, function (err) {
+			  if (err) throw err;
+			})
+		})
+  } else {
+  	// Add row
+  	fs.appendFile(liveFile, row, function (err) {
+		  if (err) throw err;
+		});
+  }
+}
+
 // TEST
 function test() {
 	let row = csvStringifier.stringifyRecords([{
@@ -85,7 +126,7 @@ function test() {
 		date: 'GGG'
 	}])
 	// Add row to the data
-	fs.appendFile(outputDirPath +'/okbooming.csv', row, function (err) {
+	fs.appendFile(liveDirPath +'/okbooming.csv', row, function (err) {
 	  if (err) throw err;
 	  console.log('...file updated');
 	});
