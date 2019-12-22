@@ -1,6 +1,6 @@
 <div layout="column" layout-fill >
 	<div class="ok-boometer-header" layout="row" md-colors="{background: 'default-accent-A100'}">
-		<div style="width: 80px;">
+		<div style="width: 80px; padding-left: 6px">
 			<a href="#!/"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
 		</div>
 		<div>
@@ -8,6 +8,20 @@
 				<a href="#!/" md-colors="{color: 'default-primary-900'}">OK Boometer</a>
 			</h1>
 		</div>
+    <div flex></div>
+    <div layout="row" layout-align="end center" md-colors="{background: 'default-primary-700'}" style="padding: 0px 12px 0px 24px;">
+      <md-input-container style="width:300px;">
+        <label>Time range</label>
+        <md-select ng-model="timeMode">
+          <!-- <md-option ng-value="'hour'">Last hour</md-option> -->
+          <md-option ng-value="'day'">Today (last 24 hours)</md-option>
+          <md-option ng-value="'week'">Last week (last 7 days)</md-option>
+          <md-option ng-value="'month'">Last month (last 30 days)</md-option>
+          <md-option ng-value="'year'">Last year (last 365 days)</md-option>
+          <md-option ng-value="'all'">All time</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
 	</div>
 	<md-nav-bar
     md-no-ink-bar="disableInkBar"
@@ -23,6 +37,9 @@
     </md-nav-item>
     <md-nav-item md-nav-href="#!/live" name="Live">
       Live
+    </md-nav-item>
+    <md-nav-item md-nav-href="#!/about" name="About">
+      About
     </md-nav-item>
   </md-nav-bar>
 </div>

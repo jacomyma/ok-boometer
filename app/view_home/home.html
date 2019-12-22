@@ -1,15 +1,15 @@
 <div layout-fill layout="column">
 	<ok-boometer-header></ok-boometer-header>
-	<div style="padding: 0px 12px; max-height: 70px; overflow-y: hidden;" layout="column" md-colors="{background: 'default-background-600'}">
-		<md-input-container class="md-primary md-icon-float" flex>
-      <label translate>SEARCH BOOMER</label>
-      <md-icon aria-label="search">search</md-icon>
-      <input ng-model="searchQuery" type="text">
-    </md-input-container>
-	</div>
 	<div flex md-colors="{background: 'default-background-200'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+		<div ng-show="loaded" style="padding: 0px 12px; max-height: 70px; overflow-y: hidden;" layout="column" md-colors="{background: 'default-background-600'}">
+			<md-input-container class="md-primary md-icon-float" flex>
+	      <label translate>SEARCH BOOMER</label>
+	      <md-icon aria-label="search">search</md-icon>
+	      <input ng-model="searchQuery" type="text">
+	    </md-input-container>
 		</div>
 		<md-content ng-show="loaded" layout-fill layout="column">
 			<md-list flex>

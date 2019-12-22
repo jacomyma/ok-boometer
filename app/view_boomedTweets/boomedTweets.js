@@ -9,7 +9,7 @@ angular.module('okboometer.view_boomedTweets', ['ngRoute'])
   })
 })
 
-.controller('BoomedTweetsCtrl', function($scope, $timeout, dataProvider, $routeParams) {
+.controller('BoomedTweetsCtrl', function($scope, $timeout, dataProvider, $routeParams, cache) {
 	
 	$scope.currentNavItem = "BoomedTweets"
 	$scope.data
@@ -17,9 +17,16 @@ angular.module('okboometer.view_boomedTweets', ['ngRoute'])
 
 	dataProvider.onLoad(function(data){
 		$timeout(function(){
-			console.log(data)
 			$scope.data = data
 			$scope.loaded = true
+		})
+	})
+
+	$scope.$watch(function(){
+    return cache.timeMode;
+  }, function(){
+		$timeout(function(){
+			dataProvider.load(cache.timeMode)
 		})
 	})
 	

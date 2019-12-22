@@ -9,7 +9,7 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
   })
 })
 
-.controller('BoomedCtrl', function($scope, $timeout, dataProvider, $routeParams) {
+.controller('BoomedCtrl', function($scope, $timeout, dataProvider, $routeParams, cache) {
 	
 	$scope.data
 	$scope.loaded = false
@@ -17,7 +17,6 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
 
 	dataProvider.onLoad(function(data){
 		$timeout(function(){
-			console.log(data)
 			$scope.data = data
 			$scope.loaded = true
 
@@ -25,6 +24,14 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
 				.sort(function(a, b){
 					return $scope.data.boomedTweetsByUser[$scope.boomedId][b] - $scope.data.boomedTweetsByUser[$scope.boomedId][a]
 				})
+		})
+	})
+
+	$scope.$watch(function(){
+    return cache.timeMode;
+  }, function(){
+		$timeout(function(){
+			dataProvider.load(cache.timeMode)
 		})
 	})
 	

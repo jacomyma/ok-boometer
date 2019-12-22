@@ -19,6 +19,7 @@ require('./view_home/home.js');
 require('./view_boomed/boomed.js');
 require('./view_boomedTweets/boomedTweets.js');
 require('./view_live/live.js');
+require('./view_about/about.js');
 
 // Declare app level module which depends on views, and components
 angular.module('graphrecipes', [
@@ -28,6 +29,7 @@ angular.module('graphrecipes', [
   'okboometer.view_boomed',
   'okboometer.view_boomedTweets',
   'okboometer.view_live',
+  'okboometer.view_about',
 ])
 .config(function($routeProvider, $mdThemingProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
@@ -66,70 +68,99 @@ angular.module('graphrecipes', [
 .factory('cache', function(){
   var ns = {}
   ns.seenBoomings = {}
+  ns.timeMode = 'all'
   return ns
 })
 
 .factory('dataProvider', function(){
   var ns = {}
   ns.loaded = false
-  d3.csv("data/okbooming.csv").then(function(data) {
-    ns.data = {booming: data}
+  ns.load = function(timeRange) {
+    let ms;
+    switch (timeRange) {
+      case 'hour':
+        ms = 1000 * 60 * 60
+        break;
+      case 'day':
+        ms = 1000 * 60 * 60 * 24
+        break;
+      case 'week':
+        ms = 1000 * 60 * 60 * 24 * 7
+        break;
+      case 'month':
+        ms = 1000 * 60 * 60 * 24 * 30
+        break;
+      case 'year':
+        ms = 1000 * 60 * 60 * 24 * 365
+        break;
+      default:
+        ms = Infinity
+        break;
+    }
 
-    // Consolidate dates
-    ns.data.booming.forEach(function(d){
-      d.time = Date.parse(d["Date"])/1000
+    d3.csv("data/okbooming.csv").then(function(data) {
+      // Consolidate dates
+      data.forEach(function(d){
+        d.time = Date.parse(d["Date"])
+      })
+      var now = new Date()
+
+      ns.data = {
+        booming: data.filter(function(d){ return now-d.time <= ms })
+      }
+
+      ns.data.booming.sort(function(a,b){return b.time-a.time})
+
+      // Indexes
+      ns.data.tweetIndex = {}
+      ns.data.usernameIndex = {}
+      ns.data.booming.forEach(ns.indexBooming)
+
+      // Aggregate by boomed
+      ns.data.topBoomed = d3.nest()
+        .key(function(d){ return d["Boomed user ID"] })
+        .rollup(function(a){ return a.length })
+        .entries(ns.data.booming)
+        .map(function(d){
+          return {
+            id: d.key,
+            value: d.value,
+            name: ns.data.usernameIndex[d.key]
+          }
+        })
+        .sort(function(a,b){ return b.value-a.value })
+
+      // Aggregate by boomed tweet
+      ns.data.topBoomedTweet = d3.nest()
+        .key(function(d){ return d["Boomed tweet ID"] })
+        .rollup(function(a){ return a.length })
+        .entries(ns.data.booming)
+        .map(function(d){
+          return {
+            id: d.key,
+            value: d.value
+          }
+        })
+        .sort(function(a,b){ return b.value-a.value })
+
+      // Boomed tweets by boomed
+      ns.data.boomedTweetsByUser = d3.nest()
+        .key(function(d){ return d["Boomed user ID"] })
+        .key(function(d){ return d["Boomed tweet ID"] })
+        .rollup(function(a){ return a.length })
+        .object(ns.data.booming)
+
+      // Boomed score by boomed
+      ns.data.boomedScoreByUser = d3.nest()
+        .key(function(d){ return d["Boomed user ID"] })
+        .rollup(function(a){ return a.length })
+        .object(ns.data.booming)
+
+      window.data = ns.data
+      ns.loaded = true
+      if (ns.cb) ns.cb(ns.data)
     })
-    ns.data.booming.sort(function(a,b){return b.time-a.time})
-
-    // Indexes
-    ns.data.tweetIndex = {}
-    ns.data.usernameIndex = {}
-    ns.data.booming.forEach(ns.indexBooming)
-
-    // Aggregate by boomed
-    ns.data.topBoomed = d3.nest()
-      .key(function(d){ return d["Boomed user ID"] })
-      .rollup(function(a){ return a.length })
-      .entries(ns.data.booming)
-      .map(function(d){
-        return {
-          id: d.key,
-          value: d.value,
-          name: ns.data.usernameIndex[d.key]
-        }
-      })
-      .sort(function(a,b){ return b.value-a.value })
-
-    // Aggregate by boomed tweet
-    ns.data.topBoomedTweet = d3.nest()
-      .key(function(d){ return d["Boomed tweet ID"] })
-      .rollup(function(a){ return a.length })
-      .entries(ns.data.booming)
-      .map(function(d){
-        return {
-          id: d.key,
-          value: d.value
-        }
-      })
-      .sort(function(a,b){ return b.value-a.value })
-
-    // Boomed tweets by boomed
-    ns.data.boomedTweetsByUser = d3.nest()
-      .key(function(d){ return d["Boomed user ID"] })
-      .key(function(d){ return d["Boomed tweet ID"] })
-      .rollup(function(a){ return a.length })
-      .object(ns.data.booming)
-
-    // Boomed score by boomed
-    ns.data.boomedScoreByUser = d3.nest()
-      .key(function(d){ return d["Boomed user ID"] })
-      .rollup(function(a){ return a.length })
-      .object(ns.data.booming)
-
-    window.data = ns.data
-    ns.loaded = true
-    if (ns.cb) ns.cb(ns.data)
-  })
+  }
   ns.sortData = function() {
     ns.data.booming.sort(function(a,b){return b.time-a.time})
     ns.data.topBoomed.sort(function(a,b){ return b.value-a.value })
@@ -176,8 +207,8 @@ angular.module('graphrecipes', [
   }
 
   ns.onLoad = function(callback){
+    ns.cb = callback
     if (ns.loaded) callback(ns.data)
-    else ns.cb = callback
   }
   return ns
 })
@@ -185,13 +216,17 @@ angular.module('graphrecipes', [
 
 // Directives
 
-.directive('okBoometerHeader', function($timeout) {
+.directive('okBoometerHeader', function($timeout, cache) {
   return {
     restrict: 'E',
     scope: {
     },
     templateUrl: 'directive_templates/header.html',
     link: function($scope, el, attrs) {
+      $scope.timeMode = cache.timeMode
+      $scope.$watch('timeMode', function(){
+        cache.timeMode = $scope.timeMode
+      })
     }
   }
 })

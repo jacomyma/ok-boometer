@@ -9,7 +9,7 @@ angular.module('okboometer.view_home', ['ngRoute'])
   })
 })
 
-.controller('HomeCtrl', function($scope, $timeout, dataProvider) {
+.controller('HomeCtrl', function($scope, $timeout, dataProvider, cache) {
 	
 	$scope.currentNavItem = "Boomed"
 	$scope.data
@@ -17,10 +17,16 @@ angular.module('okboometer.view_home', ['ngRoute'])
 
 	dataProvider.onLoad(function(data){
 		$timeout(function(){
-			console.log(data)
 			$scope.data = data
 			$scope.loaded = true
 		})
 	})
 	
+	$scope.$watch(function(){
+    return cache.timeMode;
+  }, function(){
+		$timeout(function(){
+			dataProvider.load(cache.timeMode)
+		})
+	})
 })
