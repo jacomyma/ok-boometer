@@ -147,18 +147,45 @@
 	font: normal normal 16px/1.4 Helvetica,Roboto,"Segoe UI",Calibri,sans-serif;
 }
 
-.avocado-notification {
+#avocado-notification {
 	font-family: 'Press Start 2P', cursive;
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.8rem;
   width: 100vw;
   height: 100vh;
+
+  opacity:0;
  
- will-change: text-shadow;
+  will-change: text-shadow;
   -webkit-animation: rgbText 1s steps(9) 0s infinite alternate;
           animation: rgbText 1s steps(9) 0s infinite alternate;
+
+}
+#avocado-notification.fade-out {
+	-webkit-animation: rgbText 1s steps(9) 0s infinite alternate, move 1.6s linear 1;
+	        animation: rgbText 1s steps(9) 0s infinite alternate, move 1.6s linear 1;
 }
 
+@keyframes move {
+	0% {
+     transform: translate(0px, 0px);
+     opacity: 1;
+  }
+	50% {
+     transform: translate(0px, -10px);
+     opacity: 1;
+  }
+	75% {
+     transform: translate(0px, -15px);
+     opacity: .7;
+  }
+	100% {
+     transform: translate(0px, -20px);
+     opacity: 0;
+  }
+}
+
+/* avocado notification animation */
 @-webkit-keyframes rgbText {
   0% {
     text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 0px 0 1px rgba(251, 0, 231, 0.8), 0 0px 3px rgba(0, 233, 235, 0.8), 0px 0 3px rgba(0, 242, 14, 0.8), 0 0px 3px rgba(244, 45, 0, 0.8), 0px 0 3px rgba(59, 0, 226, 0.8);

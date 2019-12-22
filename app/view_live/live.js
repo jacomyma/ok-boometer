@@ -61,9 +61,12 @@ angular.module('okboometer.view_live', ['ngRoute'])
 						// remember it
 						cache.seenBoomings[$scope.booming['Booming tweet ID']] = true
 
+						// Update notif text
+						document.getElementById('avocado-notification-username').textContent = '@'+$scope.booming['Booming user name']
+
 						// Wait and throw an avocado
 						resetAvocado()
-						$timeout(throwAvocado, 600)
+						$timeout(throwAvocado, 1200)
 
 					})
 				}
@@ -71,6 +74,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
   }
 
 	var avocado = document.getElementById('avocado')
+	var avocadoNotif = document.getElementById('avocado-notification')
   var avocadoLoop
   var throwing = {r:0, speed:50, g:0.0015}
   function throwAvocado() {
@@ -134,9 +138,24 @@ angular.module('okboometer.view_live', ['ngRoute'])
   	// End?
   	if (throwing.step <= 0) {
 	  	avocado.src = 'img/crashed-avocado-color.svg'
+
+	  	avocadoNotif.style.left = (throwing.x - 100)+'px'
+	  	avocadoNotif.style.top = (throwing.y - 120)+'px'
+	  	avocadoNotif.classList.remove('fade-out')
+	  	$timeout(function(){
+		  	avocadoNotif.classList.add('fade-out')
+	  	}, 100)
+
   		$interval.cancel(avocadoLoop)
 	    avocadoLoop = undefined
   	}
   }
+
+  // Display avocado notif only here
+	avocadoNotif.style.display = 'block'
+	$scope.$on('$destroy', function() {
+		avocadoNotif.style.display = 'none'
+		avocadoNotif.classList.remove('fade-out')
+	})
 	
 })
