@@ -58,8 +58,11 @@ angular.module('okboometer.view_live', ['ngRoute'])
 						// Take the most recent
 						$scope.booming = data[0]
 
-						// remember it
+						// Remember it
 						cache.seenBoomings[$scope.booming['Booming tweet ID']] = true
+
+						// Add to data
+						dataProvider.registerNewBooming($scope.booming)
 
 						// Update notif text
 						document.getElementById('avocado-notification-username').textContent = '@'+$scope.booming['Booming user name']
