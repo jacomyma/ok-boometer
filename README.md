@@ -55,8 +55,11 @@ Edit ```config.js``` to fill your Twitter API credentials. You may also change t
 
 The live stream uses [Forever](https://www.npmjs.com/package/forever) to run the script as a deamon.
 ```
-# Mount the script
-forever start stream.js
+# Start the deamon
+forever start stream.js --spinSleepTime 30000 --minUptime 300000
+
+# If you need to stop it:
+forever stopall
 ```
 
 For maintenance, use the following commands:
