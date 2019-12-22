@@ -139,7 +139,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
   	if (throwing.step <= 0) {
 	  	avocado.src = 'img/crashed-avocado-color.svg'
 
-	  	avocadoNotif.style.left = (throwing.x - 100)+'px'
+	  	avocadoNotif.style.left = (throwing.x - 140)+'px'
 	  	avocadoNotif.style.top = (throwing.y - 120)+'px'
 	  	avocadoNotif.classList.remove('fade-out')
 	  	$timeout(function(){

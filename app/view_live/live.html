@@ -8,6 +8,10 @@
 			<div ng-if="booming">
 				<tweet tweet-id="$parent.booming['Boomed tweet ID']"></tweet>
 			</div>
+			<div ng-if="!booming" layout="row" layout-align="center center">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+				<div style="vertical-align: middle; padding: 12px;" md-colors="{color: 'default-primary-700'}">Waiting for the next OK Booming</div>
+			</div>
 		</md-content>
 	</div>
 </div>
