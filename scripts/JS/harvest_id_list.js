@@ -95,6 +95,12 @@ function harvest_idList() {
 				queryNextBatch()
 			} else {
 				// Finalize
+				// TODO: integrate the results from the stream (scripts/data/stream/)
+				//	- load them too
+				//	- index everything by booming ID (i.e. remove doublons)
+				//	- sort
+				//	- write CSV (as before)
+
 				const outputDirPath = path.join(__dirname, '../../app/data');
 				const csvWriter = createCsvWriter({
 				  path: outputDirPath +'/okbooming.csv',
