@@ -16,8 +16,8 @@ angular.module('okboometer.view_live', ['ngRoute'])
 
 	// Set up initial loop
 	var liveLoop
-	$timeout(function(){
-		liveLoop = $interval(updateLive, 10000)
+	var initialTrig = $timeout(function(){
+		liveLoop = $interval(updateLive, 7000)
 		$scope.$on('$destroy', function() {
 	    // Make sure that the interval is destroyed
 	    if (angular.isDefined(liveLoop)) {
@@ -28,6 +28,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
 	  updateLive()
 	}, 500)
 
+	var throwingTrig
   function updateLive() {
 		// Load the live file
 		d3.csv("data/live_booming.csv?date="+(new Date()))
@@ -35,6 +36,11 @@ angular.module('okboometer.view_live', ['ngRoute'])
 				var now = new Date()
 
 				data = data
+					// Remove empty ones
+					.filter(function(row){
+						if (row['Date']) return true
+						else return false
+					})
 					// Remove those too old (>90 sec)
 					.filter(function(row){
 						var then = new Date(row['Date'])
@@ -69,7 +75,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
 
 						// Wait and throw an avocado
 						resetAvocado()
-						$timeout(throwAvocado, 1200)
+						throwingTrig = $timeout(throwAvocado, 1200)
 
 					})
 				}
@@ -160,5 +166,17 @@ angular.module('okboometer.view_live', ['ngRoute'])
 		avocadoNotif.style.display = 'none'
 		avocadoNotif.classList.remove('fade-out')
 	})
+
+	// Destroy delayed triggers
+	$scope.$on('$destroy', function() {
+    if (angular.isDefined(initialTrig)) {
+      $timeout.cancel(initialTrig)
+      initialTrig = undefined
+    }
+    if (angular.isDefined(throwingTrig)) {
+      $timeout.cancel(throwingTrig)
+      throwingTrig = undefined
+    }
+  })
 	
 })

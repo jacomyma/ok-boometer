@@ -53,7 +53,7 @@ function harvest_idList() {
 
 	function queryNextBatch() {
 		var batch = batches.pop()
-		console.log('batch of '+batch.length)
+		console.log('batch of '+batch.length+' - ' + okBooming.length + ' OK Boomings recorded so far.')
 
 		var params = {
 		  id: batch.join(',')

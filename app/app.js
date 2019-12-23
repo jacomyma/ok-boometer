@@ -200,10 +200,12 @@ angular.module('graphrecipes', [
     ns.data.boomedScoreByUser[d['Boomed user ID']] = (ns.data.boomedScoreByUser[d['Boomed user ID']] || 0) + 1
   }
   ns.registerNewBooming = function(booming) {
-    ns.data.booming.push(booming)
-    ns.indexBooming(booming)
-    ns.addBoomingToNests(booming)
-    ns.sortData()
+    if (ns.data && ns.data.booming) {
+      ns.data.booming.push(booming)
+      ns.indexBooming(booming)
+      ns.addBoomingToNests(booming)
+      ns.sortData()
+    }
   }
 
   ns.onLoad = function(callback){

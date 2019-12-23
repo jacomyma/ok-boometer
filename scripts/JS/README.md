@@ -5,7 +5,7 @@ We assume old tweets have been collected using *[Get Old Tweets](https://github.
 ```
 python Exporter.py --since 2019-12-17 --until 2019-12-18 --querysearch "ok boomer"
 ```
-You may get one or more file, because the process is unstable and you may have to retry several times and progress time range after time range. It's fine. All the files must be stored in ```/data/got/```.
+You may get one or more files, because the process is unstable and you may have to retry several times and progress time range after time range. It's fine. All the files must be stored in ```/data/got/```.
 
 ### Set up the Node environment
 
@@ -18,7 +18,7 @@ npm install
 
 ### Set up the Twitter API config
 
-Copy ```config.example.js``` as ```config.js```, and edit it to fill your Twitter API credentials. You may also change the function used to filter the "OK Boomer" tweets. You will need your own access to the [Twitter API](https://apps.twitter.com/app/new), there are plenty of tutorials on how to do this online.
+Copy ```config.example.js``` into ```config.js```, and edit it to fill your Twitter API credentials. You may also change the function used to filter the "OK Boomer" tweets. You will need your own access to the [Twitter API](https://apps.twitter.com/app/new), there are plenty of tutorials on how to do this online.
 
 
 ### 1. Get an ID list from the Get Old Tweets list of scraped tweets
