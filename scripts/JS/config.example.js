@@ -1,9 +1,9 @@
 module.exports = {
-  consumer_key: 'FILLME',
-  consumer_secret: 'FILLME',
-  access_token_key: 'FILLME',
-  access_token_secret: 'FILLME',
-  
+  consumer_key: 'FILLME_CONSUMER_KEY',
+  consumer_secret: 'FILLME_CONSUMER_SECRET',
+  access_token_key: 'FILLME_ACCESS_TOKEN_KEY',
+  access_token_secret: 'FILLME_ACCES_TOKEN_SECRET',
+
   tweetObjectOrdeal: function(t){
 		// Must be a reply or a quote
 		if (t.in_reply_to_status_id_str == null && !t.is_quote_status) return false
