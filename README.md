@@ -28,7 +28,7 @@ npm run dev
 ```
 
 
-## Run scripts
+## Launch the back-end scripts
 
 The website is in the app folder. Additional scripts can be found in the ```scripts/JS/``` folder. It has additional explanations on how to install and run the scripts. But one script in particular is important: live streaming script, that keeps the data up to date.
 
@@ -76,3 +76,8 @@ forever restartall
 # Find the logs
 forever logs
 ```
+
+## Server configuration
+
+* You need to only serve the ```app/``` folder
+* The file ```app/data/live_booming.csv``` must be set as "never cached".
