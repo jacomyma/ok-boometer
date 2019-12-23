@@ -81,3 +81,24 @@ forever logs
 
 * You need to only serve the ```app/``` folder
 * The file ```app/data/live_booming.csv``` must be set as "never cached".
+
+## Docker
+
+You need to build the image :
+
+```
+$> docker build -t okboomer:latest .
+```
+
+And then you can create a container from the previous created image :
+
+```
+$> docker run --name okboomer -d -p 80:80  \
+  --env GIT_USERNAME="XXX" \
+  --env GIT_PASSWORD="XXXX" \
+  --env TWITTER_CONSUMER_KEY="XXXX" \
+  --env TWITTER_CONSUMER_SECRET="XXXX" \
+  --env TWITTER_ACCESS_TOKEN_KEY="XXXX" \
+  --env TWITTER_ACCESS_TOKEN_SECRET="XXXX" \
+  okboomer:latest
+```
