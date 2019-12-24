@@ -20,8 +20,8 @@ function harvest_idList() {
 	let okBooming = []
 	let batches = []
 
-	const dataDirPath = path.join(__dirname, '../data')
-	fs.createReadStream(dataDirPath +'/got_id_list.csv')
+	const dataDirPath = path.join(__dirname, '..', 'data')
+	fs.createReadStream(path.join(dataDirPath,'got_id_list.csv'))
 		.pipe(csv())
 	  .on('data', (row) => {
 	  	if (options.limit-->0) {
@@ -94,31 +94,36 @@ function harvest_idList() {
 		  if (batches.length > 0) {
 				queryNextBatch()
 			} else {
-				// Finalize
-				// TODO: integrate the results from the stream (scripts/data/stream/)
-				//	- load them too
-				//	- index everything by booming ID (i.e. remove doublons)
-				//	- sort
-				//	- write CSV (as before)
-
-				const outputDirPath = path.join(__dirname, '../../app/data');
-				const csvWriter = createCsvWriter({
-				  path: outputDirPath +'/okbooming.csv',
-				  alwaysQuote: true,
-				  header: [
-				    {id: 'date', title: 'Date'},
-				    {id: 'id_source', title: 'Booming tweet ID'},
-				    {id: 'user_id_source', title: 'Booming user ID'},
-				    {id: 'user_name_source', title: 'Booming user name'},
-				    {id: 'id_target', title: 'Boomed tweet ID'},
-				    {id: 'user_id_target', title: 'Boomed user ID'},
-				    {id: 'user_name_target', title: 'Boomed user name'}
-				  ]
-				});
-				csvWriter
-				  .writeRecords(okBooming)
-				  .then(()=> console.log('The OK Booming CSV file was written successfully'));
+				agregateWithStreamData()
 			}
 		})
+	}
+
+	function agregateWithStreamData() {
+		// Finalize
+
+		// TODO: integrate the results from the stream (scripts/data/stream/)
+		//	- load them too
+		//	- index everything by booming ID (i.e. remove doublons)
+		//	- sort
+		//	- write CSV (as before)
+
+		const outputDirPath = path.join(__dirname, '../../app/data');
+		const csvWriter = createCsvWriter({
+		  path: outputDirPath +'/okbooming.csv',
+		  alwaysQuote: true,
+		  header: [
+		    {id: 'date', title: 'Date'},
+		    {id: 'id_source', title: 'Booming tweet ID'},
+		    {id: 'user_id_source', title: 'Booming user ID'},
+		    {id: 'user_name_source', title: 'Booming user name'},
+		    {id: 'id_target', title: 'Boomed tweet ID'},
+		    {id: 'user_id_target', title: 'Boomed user ID'},
+		    {id: 'user_name_target', title: 'Boomed user name'}
+		  ]
+		});
+		csvWriter
+		  .writeRecords(okBooming)
+		  .then(()=> console.log('The OK Booming CSV file was written successfully'));
 	}
 }
