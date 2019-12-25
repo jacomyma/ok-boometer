@@ -39,7 +39,7 @@ function getOldTweets_to_idList() {
 	  	// to read it as a CSV line, and just forget it if it does not work.
 	  	const instream = fs.createReadStream(path.join(directoryPath, file))
 	  	instream.on('end', () => {
-			  	if (filesCount-- == 0) {
+			  	if (--filesCount == 0) {
 						idListStream.end()
 						rejectedStream.end()
 			  	}
