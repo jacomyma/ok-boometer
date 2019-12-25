@@ -30,13 +30,39 @@ function harvest_idList() {
 					updateStateFile(()=>{
 	// - If it's all retrieved, write ok-booming
 						if (!Object.values(index).some(d=>{return d.toQuery})) {
-							console.log("ready to write ok-booming") // TODO
+							console.log("ready to write ok-booming")
+							writeOKBooming()
+						} else {
+							console.log(Object.values(index).filter(d=>{return d.toQuery}).length+ ' to query')
 						}
 					})
 				})
 			})
 		})
 	})
+
+	function writeOKBooming() {
+		const outputDirPath = path.join(__dirname, '../../app/data');
+		const csvWriter = createCsvWriter({
+		  path: outputDirPath +'/okbooming.csv',
+		  alwaysQuote: true,
+		  header: [
+		    {id: 'Date', title: 'Date'},
+		    {id: 'Booming tweet ID', title: 'Booming tweet ID'},
+		    {id: 'Booming user ID', title: 'Booming user ID'},
+		    {id: 'Booming user name', title: 'Booming user name'},
+		    {id: 'Boomed tweet ID', title: 'Boomed tweet ID'},
+		    {id: 'Boomed user ID', title: 'Boomed user ID'},
+		    {id: 'Boomed user name', title: 'Boomed user name'}
+		  ]
+		});
+		csvWriter
+		  .writeRecords(Object.values(index).filter(d=>{
+		  	return d.Date && d['Boomed tweet ID']
+		  }))
+		  .then(()=> console.log('The OK Booming CSV file was written successfully'));
+
+	}
 
 	function updateStateFile(callback) {
 		const dataDirPath = path.join(__dirname, '..', 'data')
@@ -114,6 +140,9 @@ function harvest_idList() {
 
 		T.get('statuses/lookup', params, function(err, data, response) {
 		  if (!err) {
+		  	batch.forEach(id=>{
+		  		index[id].toQuery = false
+		  	})
 		  	data.forEach(t => {
 		  		if (config.tweetObjectOrdeal(t)) {
 		  			if (t.is_quote_status) {
