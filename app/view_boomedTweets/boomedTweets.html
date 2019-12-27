@@ -7,11 +7,11 @@
 		<div layout-fill ng-show="loaded" style="overflow-y: auto;" md-colors="{background: 'default-background-900'}">
 			<md-content layout="column" layout-align="center">
 				
-				<div ng-repeat="tweet in data.topBoomedTweet | limitTo:50" layout="column" layout-gt-sm="row" >
+				<div ng-repeat="tweet in boomedTweets | limitTo:50" layout="column" layout-gt-sm="row" >
 					<div show-gt-sm flex></div>
 					<tweet tweet-id="tweet.id"></tweet>
 					<div style="padding: 6px;">
-						<lcd-meter score="tweet.value"></lcd-meter>
+						<lcd-meter score="tweet.score"></lcd-meter>
 					</div>
 					<div hide-gt-sm style="height: 48px;"></div>
 					<div show-gt-sm flex></div>

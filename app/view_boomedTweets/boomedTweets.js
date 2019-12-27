@@ -15,19 +15,18 @@ angular.module('okboometer.view_boomedTweets', ['ngRoute'])
 	$scope.data
 	$scope.loaded = false
 
-	dataProvider.onLoad(function(data){
-		$timeout(function(){
-			$scope.data = data
+	$scope.load = function(){
+		$scope.loaded = false
+		dataProvider.load('boomedTweets', true, function(data){
+			$scope.boomedTweets = data
 			$scope.loaded = true
 		})
-	})
+	}
 
 	$scope.$watch(function(){
     return cache.timeMode;
   }, function(){
-		$timeout(function(){
-			dataProvider.load(cache.timeMode)
-		})
+		$scope.load()
 	})
 	
 })
