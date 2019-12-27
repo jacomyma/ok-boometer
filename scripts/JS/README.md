@@ -53,6 +53,13 @@ It queries the API and generates the ```okbooming.csv``` file in the ```app/data
 node stream.js
 ```
 
+### 4. Compute views
+
+This script computes the views per time modes (year, month...) form okboomings.
+```
+node compute_views.js
+```
+
 ### Monitor your API use
 
 It may help to run the following script. It tells you how many calls you have left (regenerates every 15 minutes).
