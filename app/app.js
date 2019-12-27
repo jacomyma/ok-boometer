@@ -68,14 +68,33 @@ angular.module('graphrecipes', [
 .factory('cache', function(){
   var ns = {}
   ns.seenBoomings = {}
-  ns.timeMode = 'all'
+  ns.timeMode = 'week'
   return ns
 })
 
-.factory('dataProvider', function(){
+.factory('dataProvider', function(cache, $timeout){
   var ns = {}
-  ns.loaded = false
-  ns.load = function(timeRange) {
+  ns.cache = {}
+  ns.load = function(file, useTimeSuffix, callback) {
+    var suffix = ''
+    if (useTimeSuffix) {
+      suffix = '_' + cache.timeMode
+      if (suffix == '_all') { suffix = '' }
+    }
+    var filename = file+suffix
+    if (ns.cache[filename]) {
+      $timeout(function(){
+        callback(ns.cache[filename])
+      })
+    }
+    d3.csv("data/"+filename+".csv").then(function(data) {
+      $timeout(function(){
+        callback(data)
+      })
+    })
+  }
+
+  /*ns.load = function(timeRange) {
     let ms;
     switch (timeRange) {
       case 'hour':
@@ -211,7 +230,7 @@ angular.module('graphrecipes', [
   ns.onLoad = function(callback){
     ns.cb = callback
     if (ns.loaded) callback(ns.data)
-  }
+  }*/
   return ns
 })
 

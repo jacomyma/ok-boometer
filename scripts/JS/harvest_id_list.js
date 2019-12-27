@@ -42,9 +42,9 @@ function harvest_idList() {
 	})
 
 	function writeOKBooming() {
-		const outputDirPath = path.join(__dirname, '../../app/data');
+		const outputDirPath = path.join(__dirname, '..','..','app','data');
 		const csvWriter = createCsvWriter({
-		  path: outputDirPath +'/okbooming.csv',
+		  path: path.join(outputDirPath, 'okbooming.csv'),
 		  alwaysQuote: true,
 		  header: [
 		    {id: 'Date', title: 'Date'},

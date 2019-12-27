@@ -14,13 +14,13 @@
 		<md-content ng-show="loaded" layout-fill layout="column">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
-	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in data.topBoomed | filter:searchQuery" ng-href="#!/boomed/{{boomed.id}}">
-	          <lcd-meter score="boomed.value"></lcd-meter>
+	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in boomedUsers | filter:searchQuery" ng-href="#!/boomed/{{boomed.id}}">
+	          <lcd-meter score="boomed.score"></lcd-meter>
 	          <div class="md-list-item-text" layout="column">
 	            <h2
 	            	class="username"
 	            	style="font-size: 1.4em; padding-left: 6px;"
-	            >@{{ boomed.name }}</h2>
+	            >@{{ usernameIndex[boomed.id] }}</h2>
 	          </div>
 	        </md-list-item>
 		    </md-virtual-repeat-container>

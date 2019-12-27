@@ -15,18 +15,23 @@ angular.module('okboometer.view_home', ['ngRoute'])
 	$scope.data
 	$scope.loaded = false
 
-	dataProvider.onLoad(function(data){
-		$timeout(function(){
-			$scope.data = data
-			$scope.loaded = true
+	$scope.load = function(){
+		$scope.loaded = false
+		dataProvider.load('boomedUsers', true, function(data){
+			$scope.boomedUsers = data
+			dataProvider.load('usernameIndex', false, function(data){
+				$scope.usernameIndex = {}
+				data.forEach(function(d){
+					$scope.usernameIndex[d['User ID']] = d['User name']
+				})
+				$scope.loaded = true
+			})
 		})
-	})
-	
+	}
+
 	$scope.$watch(function(){
     return cache.timeMode;
   }, function(){
-		$timeout(function(){
-			dataProvider.load(cache.timeMode)
-		})
+		$scope.load()
 	})
 })
