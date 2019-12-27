@@ -94,143 +94,6 @@ angular.module('graphrecipes', [
     })
   }
 
-  /*ns.load = function(timeRange) {
-    let ms;
-    switch (timeRange) {
-      case 'hour':
-        ms = 1000 * 60 * 60
-        break;
-      case 'day':
-        ms = 1000 * 60 * 60 * 24
-        break;
-      case 'week':
-        ms = 1000 * 60 * 60 * 24 * 7
-        break;
-      case 'month':
-        ms = 1000 * 60 * 60 * 24 * 30
-        break;
-      case 'year':
-        ms = 1000 * 60 * 60 * 24 * 365
-        break;
-      default:
-        ms = Infinity
-        break;
-    }
-
-    d3.csv("data/okbooming.csv").then(function(data) {
-      // Consolidate dates
-      data.forEach(function(d){
-        d.time = Date.parse(d["Date"])
-      })
-      var now = new Date()
-
-      ns.data = {
-        booming: data.filter(function(d){ return now-d.time <= ms })
-      }
-
-      ns.data.booming.sort(function(a,b){return b.time-a.time})
-
-      // Indexes
-      ns.data.tweetIndex = {}
-      ns.data.usernameIndex = {}
-      ns.data.booming.forEach(ns.indexBooming)
-
-      // Aggregate by boomed
-      ns.data.topBoomed = d3.nest()
-        .key(function(d){ return d["Boomed user ID"] })
-        .rollup(function(a){ return a.length })
-        .entries(ns.data.booming)
-        .map(function(d){
-          return {
-            id: d.key,
-            value: d.value,
-            name: ns.data.usernameIndex[d.key]
-          }
-        })
-        .sort(function(a,b){ return b.value-a.value })
-
-      // Aggregate by boomed tweet
-      ns.data.topBoomedTweet = d3.nest()
-        .key(function(d){ return d["Boomed tweet ID"] })
-        .rollup(function(a){ return a.length })
-        .entries(ns.data.booming)
-        .map(function(d){
-          return {
-            id: d.key,
-            value: d.value
-          }
-        })
-        .sort(function(a,b){ return b.value-a.value })
-
-      // Boomed tweets by boomed
-      ns.data.boomedTweetsByUser = d3.nest()
-        .key(function(d){ return d["Boomed user ID"] })
-        .key(function(d){ return d["Boomed tweet ID"] })
-        .rollup(function(a){ return a.length })
-        .object(ns.data.booming)
-
-      // Boomed score by boomed
-      ns.data.boomedScoreByUser = d3.nest()
-        .key(function(d){ return d["Boomed user ID"] })
-        .rollup(function(a){ return a.length })
-        .object(ns.data.booming)
-
-      window.data = ns.data
-      ns.loaded = true
-      if (ns.cb) ns.cb(ns.data)
-    })
-  }
-  ns.sortData = function() {
-    ns.data.booming.sort(function(a,b){return b.time-a.time})
-    ns.data.topBoomed.sort(function(a,b){ return b.value-a.value })
-    ns.data.topBoomedTweet.sort(function(a,b){ return b.value-a.value })
-  }
-  ns.indexBooming = function(d) {
-    // Tweet index
-    ns.data.tweetIndex[d["Booming tweet ID"]] = d["Booming user ID"]
-    ns.data.tweetIndex[d["Boomed tweet ID"]] = d["Boomed user ID"]
-    // Username index
-    ns.data.usernameIndex[d["Booming user ID"]] = d["Booming user name"]
-    ns.data.usernameIndex[d["Boomed user ID"]] = d["Boomed user name"]
-  }
-  ns.addBoomingToNests = function(d) {
-    // Aggregate by boomed
-    ns.data.topBoomed.some(function(entry){
-      if (entry.id == d["Boomed user ID"]) {
-        entry.value++
-        return true
-      } else return false
-    })
-
-    // Aggregate by boomed tweet
-    ns.data.topBoomedTweet.some(function(entry){
-      if (entry.id == d['Boomed tweet ID']) {
-        entry.value++
-        return true
-      } else return false
-    })
-
-    // Boomed tweets by boomed
-    let entry = (ns.data.boomedTweetsByUser[d['Boomed user ID']] || {})
-    entry[d['Boomed tweet ID']] = (entry[d['Boomed tweet ID']] || 0) + 1
-    ns.data.boomedTweetsByUser[d['Boomed user ID']] = entry
-
-    // Boomed score by boomed
-    ns.data.boomedScoreByUser[d['Boomed user ID']] = (ns.data.boomedScoreByUser[d['Boomed user ID']] || 0) + 1
-  }
-  ns.registerNewBooming = function(booming) {
-    if (ns.data && ns.data.booming) {
-      ns.data.booming.push(booming)
-      ns.indexBooming(booming)
-      ns.addBoomingToNests(booming)
-      ns.sortData()
-    }
-  }
-
-  ns.onLoad = function(callback){
-    ns.cb = callback
-    if (ns.loaded) callback(ns.data)
-  }*/
   return ns
 })
 
@@ -293,6 +156,9 @@ angular.module('graphrecipes', [
     },
     templateUrl: 'directive_templates/lcdMeter.html',
     link: function($scope, el, attrs) {
+      $scope.$watch('score', function(){
+        $scope.score2 = Math.min((+$scope.score), 9999)
+      })
     }
   }
 })

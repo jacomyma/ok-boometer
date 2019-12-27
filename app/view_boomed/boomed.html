@@ -21,7 +21,7 @@
 					<div show-gt-sm flex></div>
 				</div>
 				
-				<div ng-repeat="tweet in boomedTweets" layout="column" layout-gt-sm="row" >
+				<div ng-repeat="tweet in boomedTweets | limitTo:50" layout="column" layout-gt-sm="row" >
 					<div show-gt-sm flex></div>
 					<tweet tweet-id="tweet.id"></tweet>
 					<div style="padding: 6px;">
