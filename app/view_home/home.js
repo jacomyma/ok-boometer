@@ -24,6 +24,9 @@ angular.module('okboometer.view_home', ['ngRoute'])
 				data.forEach(function(d){
 					$scope.usernameIndex[d['User ID']] = d['User name']
 				})
+				$scope.boomedUsers.forEach(function(d){
+					d.name = $scope.usernameIndex[d.id] || ' <unknown>'
+				})
 				$scope.loaded = true
 			})
 		})
