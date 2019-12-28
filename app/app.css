@@ -114,18 +114,18 @@
 	bottom:0px;
 }
 
-.lcd-meter .lcd-background {
-	opacity: 0.05;
+.lcd-meter .lcd-background, .lcd-meter .lcd-score {
+  padding-right: 56px;
 	line-height: 52px;
 }
 
-.lcd-meter .lcd-score {
-	line-height: 52px;
+.lcd-meter .lcd-background {
+	opacity: 0.05;
 }
 
 .lcd-meter .lcd-icon {
-	text-align: start;
-	left: -3px;
+	text-align: end;
+	right: -6px;
 }
 
 .lcd-meter .lcd-icon img{
