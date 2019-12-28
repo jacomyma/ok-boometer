@@ -57,7 +57,7 @@ The live stream uses [Forever](https://www.npmjs.com/package/forever) to run the
 ```
 # Start the deamon
 forever start --spinSleepTime 30000 --minUptime 300000 stream.js
-forever start --spinSleepTime 30000 --minUptime 300000 recurrent:compute_views.js
+forever start --spinSleepTime 30000 --minUptime 300000 recurrent_compute_views.js
 
 # If you need to stop it:
 forever stopall
