@@ -32,6 +32,18 @@
   font-style: normal;
 }
 
+
+@font-face {
+  font-family: 'LEDCalculator';
+  src: url('font/led-calculator-web-font-kit/LEDCalculator.eot?#iefix') format('embedded-opentype'),
+       url('font/led-calculator-web-font-kit/LEDCalculator.woff') format('woff'),
+       url('font/led-calculator-web-font-kit/LEDCalculator.ttf')  format('truetype'),
+       url('font/led-calculator-web-font-kit/LEDCalculator.svg#LEDCalculator') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 /* other */
 
 .rank-avatar {
@@ -97,7 +109,6 @@
 
 .lcd-meter {
 	width: 160px;
-	width: 160px;
 	height: 52px;
 	color: #414302;
 	font-family: digital-7_monoitalic;
@@ -130,6 +141,72 @@
 
 .lcd-meter .lcd-icon img{
 	height: 52px;
+}
+
+/* LCD Boometer */
+.lcd-boometer-container {
+  margin: 6px;
+  background-color: #dae300;
+  padding: 3px 6px;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px 0 rgba(0,0,0,0.1), 0 6px 18px 0 rgba(0,0,0,0.08), inset 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.lcd-boometer {
+  color: #414302;
+  position:relative;
+}
+
+.lcd-boometer.big-digit {
+  text-align: end;
+  font-family: digital-7_monoitalic;
+  font-size: 6.4em;
+  width: 210px;
+  height: 74px;
+}
+
+.lcd-boometer.small-text {
+  font-family: LEDCalculator;
+  font-size: 2.2em;
+  line-height: 30px
+}
+
+.lcd-boometer.big-text {
+  font-family: LEDCalculator;
+  font-size: 3.4em;
+  height: 70px;
+  line-height: 54px
+}
+
+.lcd-boometer .lcd-overlay {
+  position:absolute;
+}
+
+.lcd-boometer.big-digit .lcd-overlay {
+  width: 210px;
+  height: 74px;
+  left: -12px;
+  top: -6px;
+}
+
+.lcd-boometer.small-text .lcd-overlay {
+  width: 430px;
+  left: 0px;
+}
+
+.lcd-boometer.big-text .lcd-overlay {
+  width: 680px;
+  height: 70px;
+  left: 0px;
+}
+
+.lcd-boometer.big-digit .lcd-background, .lcd-boometer.big-digit .lcd-displayed {
+  padding-right: 0px;
+  line-height: 74px;
+}
+
+.lcd-boometer .lcd-background {
+  opacity: 0.05;
 }
 
 .ok-boometer-header h1 {

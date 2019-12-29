@@ -1,12 +1,31 @@
 <div layout="row" layout-align="center center">
-	<div class=lcd-meter-container>
+	<div class=lcd-boometer-container layout="column">
+		<div class="lcd-boometer big-text">
+			<div class="lcd-overlay lcd-background">
+				████████████████████
+			</div>
+			<div class="lcd-overlay lcd-displayed">
+				@{{username | limitTo:19}}
+			</div>
+		</div>
+		<div layout="row">
+			<div class="lcd-boometer big-digit">
+				<div class="lcd-overlay lcd-background">8888</div>
+				<div class="lcd-overlay lcd-displayed">{{lcdScore}}</div>
+			</div>
+			<div class="lcd-boometer small-text">
+				<div class="lcd-overlay lcd-background">
+					████████████████████
+					<br>
+					████████████████████
+				</div>
+				<div class="lcd-overlay lcd-displayed" ng-show="animStatus=='splash'">
+					OK Boomer received
+					<br>
+					{{timeText}}
+				</div>
+			</div>
+		</div>
 		<object data="img/boometer.svg" type="image/svg+xml" style="width:680px">
 	</div>
-	<!--
-		<div class="lcd-meter" title="Received {{score}} different OK Boomer">
-			<div class="lcd-overlay lcd-background">8888</div>
-			<div class="lcd-overlay lcd-score">{{score2}}</div>
-			<div class="lcd-overlay lcd-icon"><img src="img/crashed-avocado-lcd.svg"></div>
-		</div>
-	-->
 </div>

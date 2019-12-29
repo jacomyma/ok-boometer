@@ -163,7 +163,7 @@ angular.module('graphrecipes', [
   }
 })
 
-.directive('lcdBooMeter', function($timeout, $interval) {
+.directive('lcdBooMeter', function($timeout, $interval, cache) {
   return {
     restrict: 'E',
     scope: {
@@ -174,6 +174,34 @@ angular.module('graphrecipes', [
     link: function($scope, element, attrs, ctrl) {
       var obj = element.find('object')
       var animIntervals = []
+
+      $scope.$watch(function(){
+        return cache.timeMode;
+      }, function(){
+        $scope.animStatus = 'seeking'
+        $scope.timeText = ''
+        switch(cache.timeMode) {
+          case('day'):
+            $scope.timeText = 'in one day'
+            break;
+
+          case('week'):
+            $scope.timeText = 'in one week'
+            break;
+
+          case('month'):
+            $scope.timeText = 'in one month'
+            break;
+
+          case('year'):
+            $scope.timeText = 'in one year'
+            break;
+
+          case('all'):
+            $scope.timeText = 'ever'
+            break;
+        }
+      })
 
       $scope.$watch('score', function(){
         if ($scope.score !== undefined) {
@@ -197,6 +225,7 @@ angular.module('graphrecipes', [
           } else {
             $scope.target = 9999
           }
+          $scope.lcdScore = "----"
           $scope.animStatus = 'seeking'
         }
       })
@@ -291,6 +320,7 @@ angular.module('graphrecipes', [
               break;
 
             case 'splash':
+              $scope.lcdScore = $scope.score2
               var levels = ["0", "3", "10", "33", "100", "333", "1000", "3333", "9999"]
               levels.forEach(function(l){
                 if (+l<$scope.target) {
@@ -346,8 +376,49 @@ angular.module('graphrecipes', [
                 anim.push(step)
               })
               addAnimInterval(anim, 100, function(){
-                $scope.animStatus = 'splash'
+                $scope.animStatus = 'throw'
               })
+              break;
+
+            case 'throw':
+              if (!$scope.target) {
+                $scope.animStatus = 'seeking'
+              } else {
+                // Build anim
+                var anim = []
+                var levels = ["0", "3", "10", "33", "100", "333", "1000", "3333", "9999"]
+                levels
+                .filter(function(l){ return +l <= $scope.target })
+                .forEach(function(l){
+                  var step = {}
+                  levels.forEach(function(l2){
+                    if (+l2<=+l) {
+                      step["boometer-"+l2] = true
+                      if (l2!="0" && l2!="3" && l2!="9999") {
+                        step["boometer-"+l2+"-no-splash"] = true
+                      }
+                    } else {
+                      step["boometer-"+l2] = false
+                      if (l2!="0" && l2!="3" && l2!="9999") {
+                        step["boometer-"+l2+"-no-splash"] = false
+                      }
+                    }
+                    if (l2 != l) {
+                      step["boometer-"+l2+"-selected"] = false
+                      step["boometer-"+l2+"-selected-no-splash"] = false
+                    } else {
+                      step["boometer-"+l2+"-selected"] = true
+                      step["boometer-"+l2+"-selected-no-splash"] = true
+                    }
+                  })
+                  step["boometer-head-1-2"] = true
+                  step["boometer-head-1"] = true
+                  anim.push(step)
+                })
+                addAnimInterval(anim, 50, function(){
+                  $scope.animStatus = 'splash'
+                })
+              }
               break;
             }
         }
