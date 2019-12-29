@@ -101,7 +101,7 @@
 
 .lcd-meter-container {
 	margin: 6px;
-	background-color: #dae300;
+	background-color: #dfe441;
 	padding: 3px 6px;
 	border-radius: 4px;
 	box-shadow: 0 6px 12px 0 rgba(0,0,0,0.1), 0 6px 18px 0 rgba(0,0,0,0.08), inset 0px 2px 8px rgba(0,0,0,0.1);
@@ -110,7 +110,7 @@
 .lcd-meter {
 	width: 160px;
 	height: 52px;
-	color: #414302;
+	color: #3b3b3b;
 	font-family: digital-7_monoitalic;
 	font-size: 3.2em;
 	position:relative;
@@ -146,14 +146,14 @@
 /* LCD Boometer */
 .lcd-boometer-container {
   margin: 6px;
-  background-color: #dae300;
+  background-color: #dfe441;
   padding: 3px 6px;
   border-radius: 4px;
   box-shadow: 0 6px 12px 0 rgba(0,0,0,0.1), 0 6px 18px 0 rgba(0,0,0,0.08), inset 0px 2px 8px rgba(0,0,0,0.1);
 }
 
 .lcd-boometer {
-  color: #414302;
+  color: #3b3b3b;
   position:relative;
 }
 
