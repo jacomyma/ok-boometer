@@ -10,13 +10,7 @@
 				<div layout="column" layout-gt-sm="row" md-colors="{background: 'default-background-700'}">
 					<div show-gt-sm flex></div>
 					<div layout="row" layout-align="center center">
-						<h2
-							class="username"
-							style="font-size: 2em; text-align: center; width:500px"
-						>@{{usernameIndex[boomedId]}}</h2>
-					</div>
-					<div style="padding: 6px;">
-						<lcd-meter score="boomedScoreByUser[boomedId]"></lcd-meter>
+						<lcd-boo-meter score="boomedScoreByUser[boomedId]" username="usernameIndex[boomedId]"></lcd-meter>
 					</div>
 					<div show-gt-sm flex></div>
 				</div>
