@@ -1,15 +1,15 @@
 <div layout-fill layout="column">
 	<ok-boometer-header></ok-boometer-header>
-	<div flex md-colors="{background: 'default-background-50'}">
+	<div flex md-colors="{background: 'default-background-800'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
-		<div layout-fill ng-show="loaded" style="overflow-y: auto;" md-colors="{background: 'default-background-900'}">
-			<md-content layout="column" layout-align="center">
+		<div layout-fill ng-show="loaded" style="overflow-y: auto;">
+			<md-content layout="column" layout-align="center" md-colors="{background: 'default-background-900'}">
 				
 				<div ng-repeat="tweet in boomedTweets | limitTo:50" layout="column" layout-gt-sm="row" >
 					<div show-gt-sm flex></div>
-					<tweet tweet-id="tweet.id"></tweet>
+					<tweet tweet-id="tweet.id" style="width:500px"></tweet>
 					<div style="padding: 6px;">
 						<lcd-meter score="tweet.score"></lcd-meter>
 					</div>
