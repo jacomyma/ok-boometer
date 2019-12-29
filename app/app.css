@@ -221,7 +221,8 @@
 }
 
 .username {
-	font: normal normal 16px/1.4 Helvetica,Roboto,"Segoe UI",Calibri,sans-serif;
+  font-family: LEDCalculator;
+  font-weight: 300;
 }
 
 #avocado-notification {

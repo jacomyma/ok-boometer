@@ -1,17 +1,17 @@
 <div layout-fill layout="column">
 	<ok-boometer-header></ok-boometer-header>
-	<div flex md-colors="{background: 'default-background-200'}">
+	<div flex md-colors="{background: 'default-background-900'}">
 		<div ng-show="!loaded" layout-fill layout="column" layout-align="space-around center">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
-		<div ng-show="loaded" style="padding: 0px 12px; max-height: 70px; overflow-y: hidden;" layout="column" md-colors="{background: 'default-background-600'}">
+		<div ng-show="loaded" style="padding: 0px 12px; max-height: 70px; overflow-y: hidden;" layout="column" md-colors="{background: 'default-background-800'}">
 			<md-input-container class="md-primary md-icon-float" flex>
 	      <label translate>SEARCH BOOMER</label>
 	      <md-icon aria-label="search">search</md-icon>
 	      <input ng-model="searchQuery" type="text">
 	    </md-input-container>
 		</div>
-		<md-content ng-show="loaded" layout-fill layout="column">
+		<md-content ng-show="loaded" layout-fill layout="column" md-colors="{background: 'default-background-900', color: 'default-accent-300'}">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
 	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in boomedUsers | filter:searchQuery" ng-href="#!/boomed/{{boomed.id}}">
@@ -19,7 +19,7 @@
 	          <div class="md-list-item-text" layout="column">
 	            <h2
 	            	class="username"
-	            	style="font-size: 1.4em; padding-left: 6px;"
+	            	style="font-size: 2.2em; padding-left: 6px;"
 	            >@{{ usernameIndex[boomed.id] }}</h2>
 	          </div>
 	        </md-list-item>
