@@ -1,13 +1,21 @@
 <div layout="column" layout-fill >
 	<div class="ok-boometer-header" layout="row" md-colors="{background: 'default-primary-800'}">
-		<div style="width: 80px; padding-left: 6px">
+		<div hide-xs style="width: 80px; padding-left: 6px">
 			<a href="#!/"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
 		</div>
-		<div>
+		<div hide-xs>
 			<h1>
 				<a href="#!/" md-colors="{color: 'default-accent-A100'}">OK Boo<span md-colors="{color: 'default-accent-50'}">meter</span></a>
 			</h1>
 		</div>
+    <div hide-gt-xs>
+      <h1 style="font-size:1.2em">
+        <a href="#!/" md-colors="{color: 'default-accent-A100'}">
+          OK<br>
+          Boo<span md-colors="{color: 'default-accent-50'}">meter</span>
+        </a>
+      </h1>
+    </div>
     <div flex></div>
     <div layout="row" layout-align="end center" md-colors="{background: 'default-primary-700'}" style="padding: 0px 12px 0px 24px;">
       <md-input-container style="width:300px;">
@@ -22,18 +30,48 @@
         </md-select>
       </md-input-container>
     </div>
+    <div hide-gt-xs layout="column" layout-align="center center">
+      <md-menu>
+        <md-button aria-label="Menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+          <md-icon md-menu-origin>menu</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button ng-href="#!/">
+              Top Boomers
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-href="#!/boomedTweets">
+              Top Tweets
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-href="#!/live">
+              Live
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-href="#!/about">
+              About
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
 	</div>
 	<md-nav-bar
     md-no-ink-bar="disableInkBar"
     md-selected-nav-item="$parent.currentNavItem"
     nav-bar-aria-label="navigation links"
     class="md-primary"
+    hide-xs
   >
     <md-nav-item md-nav-href="#!/" name="Boomed">
-      Top boomers
+      Top Boomers
     </md-nav-item>
     <md-nav-item md-nav-href="#!/boomedTweets" name="BoomedTweets">
-      Top tweets
+      Top Tweets
     </md-nav-item>
     <md-nav-item md-nav-href="#!/live" name="Live">
       Live
