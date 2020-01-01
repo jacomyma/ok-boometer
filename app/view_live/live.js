@@ -18,13 +18,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
 	var liveLoop
 	var initialTrig = $timeout(function(){
 		liveLoop = $interval(updateLive, 7000)
-		$scope.$on('$destroy', function() {
-	    // Make sure that the interval is destroyed
-	    if (angular.isDefined(liveLoop)) {
-	      $interval.cancel(liveLoop)
-	      liveLoop = undefined
-	    }
-	  })
+		
 	  updateLive()
 	}, 500)
 
@@ -113,15 +107,8 @@ angular.module('okboometer.view_live', ['ngRoute'])
   	avocado.style.left = Math.round(throwing.x - avocado.offsetWidth/2)+'px'
   	avocado.style.top = Math.round(throwing.y - avocado.offsetHeight/2)+'px'
 
+
   	avocadoLoop = $interval(updateAvocado, 33)
-		$scope.$on('$destroy', function() {
-			resetAvocado()
-	    // Make sure that the interval is destroyed
-	    if (angular.isDefined(avocadoLoop)) {
-	      $interval.cancel(avocadoLoop)
-	      avocadoLoop = undefined
-	    }
-	  })
   }
 
   function resetAvocado() {
@@ -144,6 +131,7 @@ angular.module('okboometer.view_live', ['ngRoute'])
     // Place
   	avocado.style.left = Math.round(throwing.x - avocado.offsetWidth/2)+'px'
   	avocado.style.top = Math.round(throwing.y - avocado.offsetHeight/2)+'px'
+  	// console.log(avocado.style.left+' '+avocado.style.top)
   	// End?
   	if (throwing.step <= 0) {
 	  	avocado.src = 'img/crashed-avocado-color.svg'
@@ -162,13 +150,24 @@ angular.module('okboometer.view_live', ['ngRoute'])
 
   // Display avocado notif only here
 	avocadoNotif.style.display = 'block'
-	$scope.$on('$destroy', function() {
-		avocadoNotif.style.display = 'none'
-		avocadoNotif.classList.remove('fade-out')
-	})
 
 	// Destroy delayed triggers
 	$scope.$on('$destroy', function() {
+    if (angular.isDefined(liveLoop)) {
+      $interval.cancel(liveLoop)
+      liveLoop = undefined
+    }
+    
+    avocadoNotif.style.display = 'none'
+		avocadoNotif.classList.remove('fade-out')
+
+		resetAvocado()
+    // Make sure that the interval is destroyed
+    if (angular.isDefined(avocadoLoop)) {
+      $interval.cancel(avocadoLoop)
+      avocadoLoop = undefined
+    }
+
     if (angular.isDefined(initialTrig)) {
       $timeout.cancel(initialTrig)
       initialTrig = undefined
