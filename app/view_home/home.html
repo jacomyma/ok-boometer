@@ -14,7 +14,7 @@
 		<md-content ng-show="loaded" layout-fill layout="column" md-colors="{background: 'default-background-900', color: 'default-accent-300'}">
 			<md-list flex>
 				<md-virtual-repeat-container layout-fill>
-	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in boomedUsers | filter:searchQuery" ng-href="#!/boomed/{{boomed.id}}">
+	        <md-list-item class="md-1-line" md-virtual-repeat="boomed in boomedUsers | filter:searchQuery" ng-href="#!/boomer/{{boomed.id}}/{{timeMode}}">
 	          <lcd-meter score="boomed.score" style="pointer-events: none;"></lcd-meter>
 	          <div class="md-list-item-text" layout="column">
 	            <h2

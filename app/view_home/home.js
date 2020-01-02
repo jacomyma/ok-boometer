@@ -4,16 +4,24 @@ angular.module('okboometer.view_home', ['ngRoute'])
 
 .config(function($routeProvider) {
   $routeProvider.when('/', {
+    redirectTo: '/boomed/day'
+  })
+  $routeProvider.when('/boomed/:timeMode', {
     templateUrl: 'view_home/home.html',
     controller: 'HomeCtrl'
   })
 })
 
-.controller('HomeCtrl', function($scope, $timeout, dataProvider, cache) {
+.controller('HomeCtrl', function($scope, $timeout, dataProvider, $routeParams, cache, $location) {
 	
 	$scope.currentNavItem = "Boomed"
 	$scope.data
 	$scope.loaded = false
+	if ($routeParams.timeMode) {
+		cache.timeMode = decodeURIComponent($routeParams.timeMode)
+		$scope.timeMode = cache.timeMode
+	}
+
 
 	$scope.load = function(){
 		$scope.loaded = false
@@ -32,9 +40,11 @@ angular.module('okboometer.view_home', ['ngRoute'])
 		})
 	}
 
+	$scope.load()
 	$scope.$watch(function(){
     return cache.timeMode;
   }, function(){
-		$scope.load()
+  	$scope.timeMode = cache.timeMode
+  	$location.path('/boomed/'+cache.timeMode)
 	})
 })

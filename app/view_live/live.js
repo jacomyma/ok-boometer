@@ -7,12 +7,24 @@ angular.module('okboometer.view_live', ['ngRoute'])
     templateUrl: 'view_live/live.html',
     controller: 'LiveCtrl'
   })
+  $routeProvider.when('/live/:timeMode', {
+    templateUrl: 'view_live/live.html',
+    controller: 'LiveCtrl'
+  })
 })
 
-.controller('LiveCtrl', function($scope, $timeout, dataProvider, $interval, cache) {
+.controller('LiveCtrl', function($scope, $timeout, dataProvider, $interval, $routeParams, cache, $location) {
 	
 	$scope.currentNavItem = "Live"
 	$scope.loaded = true
+	if ($routeParams.timeMode) {
+		cache.timeMode = decodeURIComponent($routeParams.timeMode)
+	}
+	$scope.$watch(function(){
+    return cache.timeMode;
+  }, function(){
+  	$location.path('/live/'+cache.timeMode)
+	})
 
 	// Set up initial loop
 	var liveLoop

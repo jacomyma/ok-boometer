@@ -1,11 +1,11 @@
 <div layout="column" layout-fill >
 	<div class="ok-boometer-header" layout="row" md-colors="{background: 'default-primary-800'}">
 		<div hide-xs style="width: 80px; padding-left: 6px">
-			<a href="#!/"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
+			<a href="#!/boomed/{{timeMode}}"><img src="img/crashed-avocado-color.svg" style="width: 80px;"></a>
 		</div>
 		<div hide-xs>
 			<h1>
-				<a href="#!/" md-colors="{color: 'default-accent-A100'}">OK Boo<span md-colors="{color: 'default-accent-50'}">meter</span></a>
+				<a href="#!/boomed/{{timeMode}}" md-colors="{color: 'default-accent-A100'}">OK Boo<span md-colors="{color: 'default-accent-50'}">meter</span></a>
 			</h1>
 		</div>
     <div hide-gt-xs>
@@ -23,9 +23,9 @@
         <md-select ng-model="timeMode">
           <!-- <md-option ng-value="'hour'">Last hour</md-option> -->
           <md-option ng-value="'day'">Today (last 24 hours)</md-option>
-          <md-option ng-value="'week'">Last week (last 7 days)</md-option>
-          <md-option ng-value="'month'">Last month (last 30 days)</md-option>
-          <md-option ng-value="'year'">Last year (last 365 days)</md-option>
+          <md-option ng-value="'week'">Week (last 7 days)</md-option>
+          <md-option ng-value="'month'">Month (last 30 days)</md-option>
+          <md-option ng-value="'year'">Year (last 365 days)</md-option>
           <md-option ng-value="'all'">All time</md-option>
         </md-select>
       </md-input-container>
@@ -37,22 +37,22 @@
         </md-button>
         <md-menu-content>
           <md-menu-item>
-            <md-button ng-href="#!/">
+            <md-button ng-href="#!/boomed/{{timeMode}}">
               Top Boomers
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-href="#!/boomedTweets">
+            <md-button ng-href="#!/boomedTweets/{{timeMode}}">
               Top Tweets
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-href="#!/live">
+            <md-button ng-href="#!/live/{{timeMode}}">
               Live
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-href="#!/about">
+            <md-button ng-href="#!/about/{{timeMode}}">
               About
             </md-button>
           </md-menu-item>
@@ -67,16 +67,16 @@
     class="md-primary"
     hide-xs
   >
-    <md-nav-item md-nav-href="#!/" name="Boomed">
+    <md-nav-item md-nav-href="#!/boomed/{{timeMode}}" name="Boomed">
       Top Boomers
     </md-nav-item>
-    <md-nav-item md-nav-href="#!/boomedTweets" name="BoomedTweets">
+    <md-nav-item md-nav-href="#!/boomedTweets/{{timeMode}}" name="BoomedTweets">
       Top Tweets
     </md-nav-item>
-    <md-nav-item md-nav-href="#!/live" name="Live">
+    <md-nav-item md-nav-href="#!/live/{{timeMode}}" name="Live">
       Live
     </md-nav-item>
-    <md-nav-item md-nav-href="#!/about" name="About">
+    <md-nav-item md-nav-href="#!/about/{{timeMode}}" name="About">
       About
     </md-nav-item>
   </md-nav-bar>

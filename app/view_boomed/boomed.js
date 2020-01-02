@@ -3,17 +3,23 @@
 angular.module('okboometer.view_boomed', ['ngRoute'])
 
 .config(function($routeProvider) {
-  $routeProvider.when('/boomed/:boomed', {
+  $routeProvider.when('/boomer/:boomed', {
+    redirectTo: '/boomer/:boomed/day'
+  })
+  $routeProvider.when('/boomer/:boomed/:timeMode', {
     templateUrl: 'view_boomed/boomed.html',
     controller: 'BoomedCtrl'
   })
 })
 
-.controller('BoomedCtrl', function($scope, $timeout, dataProvider, $routeParams, cache) {
+.controller('BoomedCtrl', function($scope, $timeout, dataProvider, $routeParams, cache, $location) {
 	
 	$scope.data
 	$scope.loaded = false
 	$scope.boomedId = decodeURIComponent($routeParams.boomed)
+	if ($routeParams.timeMode) {
+		cache.timeMode = decodeURIComponent($routeParams.timeMode)
+	}
 
 	$scope.load = function(){
 		$scope.loaded = false
@@ -43,10 +49,11 @@ angular.module('okboometer.view_boomed', ['ngRoute'])
 		})
 	}
 
+	$scope.load()
 	$scope.$watch(function(){
     return cache.timeMode;
   }, function(){
-		$scope.load()
+  	$location.path('/boomer/'+$scope.boomedId+'/'+cache.timeMode)
 	})
 
 })
