@@ -1,0 +1,20 @@
+[
+  {
+    // Live stream
+    "uid": "livestream",
+    "append": true,
+    "watch": true,
+    "script": "stream.js",
+    "logFile": "stream.logs",
+    "errFile": "stream.errors"
+  },
+  {
+    // Views
+    "uid": "compute_views",
+    "append": true,
+    "watch": true,
+    "script": "recurrent_compute_views.js",
+    "logFile": "recurrent_compute_views.logs",
+    "errFile": "recurrent_compute_views.errors"
+  }
+]

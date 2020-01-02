@@ -3,6 +3,8 @@ bower_components/*
 scripts/data/*
 scripts/JS/node_modules/*
 scripts/JS/config.js
+scripts/JS/stream.errors
+scripts/JS/recurrent_compute_views.errors
 
 # Windows image file caches
 Thumbs.db
