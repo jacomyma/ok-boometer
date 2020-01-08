@@ -21,6 +21,7 @@ const maxTime = 1000 * 60 * 60 // Streaming lasts for 1 hour
 
 // Throttle
 const defaultThrottle = 30 * 1000 // 30 second
+const maxThrottle = 1000 * 60 *30 // 30 min
 let throttle = defaultThrottle
 let throttleDecay = setInterval(function(){
 	// Continuously decay the throttle to default
@@ -99,9 +100,9 @@ function liveStream() {
 			// from Twitter, i.e. "Exceeded connection limit for user"
 			// We ignore it.
 		} else {
-			console.log('Live stream fail. Restart in '+Math.round(throttle/1000)+' seconds')
+			console.log('Live stream fail ('+error.message+'). Restart in '+Math.round(throttle/1000)+' seconds. ['+(new Date()).toISOString()+']')
 			setTimeout(liveStream, throttle)
-			throttle *= 2
+			throttle = Math.min(maxThrottle, 2*throttle)
 		}
 	  // throw 'Stream fail ['+(new Date()).toISOString()+'] '+error;
 	})
