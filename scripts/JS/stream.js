@@ -25,7 +25,7 @@ let throttle = defaultThrottle
 let throttleDecay = setInterval(function(){
 	// Continuously decay the throttle to default
 	throttle = Math.max(defaultThrottle, throttle - 10*1000) // Decay: 10 seconds
-	console.log('throttle: '+Math.round(throttle/1000)+' seconds')
+	// console.log('throttle: '+Math.round(throttle/1000)+' seconds')
 }, 60*1000) // Every minute
 
 console.log('\n# Init stream at '+initialTime.toISOString()+' with a duration of '+Math.round(maxTime/60000)+' minutes')
