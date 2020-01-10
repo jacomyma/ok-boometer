@@ -10,7 +10,7 @@ ENV TWITTER_ACCES_TOKEN_SECRET=""
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN ["chmod", "+x", "/docker-entrypoint.sh"]
-RUN apt-get update && apt-get -y install npm git
+RUN apt-get update && apt-get -y install npm git vim procps
 RUN npm i npm@latest -g
 
 EXPOSE 80
