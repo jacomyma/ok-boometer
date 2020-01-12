@@ -20,8 +20,9 @@ function harvest_idList() {
 	// - Load the id list known from the live stream
 		loadStreamData(()=>{
 	// - Load the file containing the state of the process
-	//     (indeed it will probably be necessary to launch it
-	//		 several times due to Twitter API limitations)
+	//     (indeed it will probably be necessary to launch the script
+	//		 several times due to Twitter API limitations, and the state
+	//     file will keep track of the process in the meanwhile)
 			loadState(()=>{
 	// - Determine which tweets must be retrieved
 	// - Retrieve them
