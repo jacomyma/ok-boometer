@@ -50,16 +50,17 @@ fs.writeFile(liveFile, csvStringifier.getHeaderString(), function (err) {
 })
 
 liveStream()
+// Auto-stop (forever will reboot the script even if uncaught errors)
+setTimeout(function(){
+	let now = new Date()
+	console.log('Terminate stream because its time has been reached ('+Math.round(maxTime/60000)+' minutes). '+now.toISOString())
+	process.exit()
+}, maxTime)
 
 function liveStream() {
 	let stream = T.stream('statuses/filter', {track: searchQuery});
 	stream.on('data', function(t) {
 		// console.log('\nPotential OK-Booming detected https://twitter.com/x/status/'+t.id_str)
-		let now = new Date()
-		if (now - initialTime>maxTime) {
-			console.log('Terminate stream because its time has been reached ('+Math.round(maxTime/60000)+' minutes). '+now.toISOString())
-			process.exit()
-		}
 		if (config.tweetObjectOrdeal(t)) {
 			let row
 			if (t.is_quote_status) {
