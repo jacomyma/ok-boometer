@@ -80,7 +80,8 @@ This script needs to be executed again if the file ```ok-booming.csv``` is updat
 
 ### 4. Listen to the Stream API to update the file live
 
-This script listens to the Twitter API and update the data. It listens to the live stream for any tweet containing 'OK boomer' and decides if it is an OK-booming or not. Every time a new OK-booming is detected, it updates the data two ways:
+This script listens to the Twitter API and update the data. It listens to the live stream for any tweet containing 'OK boomer' and decides if it is an OK-booming or not. Every time a new OK-booming is detected, it updates the data three ways:
+* It updates the prod file ```live_booming.csv``` which contains only the last OK-boomings. It is used by the Live view.
 * It updates the prod file ```ok-boomings.csv``` so that next time ```compute_views.js``` (or its recurrent version) is executed, it takes the last ok-boomings in account
 * It updates a daily file in the ```scripts/data/stream/``` folder, so that the data can be later reconstructed by ```harvest_id_list.js``` if necessary.
 
