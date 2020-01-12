@@ -17,7 +17,7 @@ const T = new Twitter(config);
 const searchQuery = 'ok boomer'
 let minute = (new Date()).getMinutes()
 const initialTime = new Date()
-const maxTime = 1000 * 60 * 60 // Streaming lasts for 1 hour
+const maxTime = 1000 * 60 * 30 // Streaming lasts for 30 minutes
 
 // Throttle
 const defaultThrottle = 30 * 1000 // 30 second
