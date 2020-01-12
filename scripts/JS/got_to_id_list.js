@@ -15,13 +15,13 @@ function getOldTweets_to_idList() {
 
 	const outputDirPath = path.join(__dirname, '..', 'data');
 	let idListStream = fs.createWriteStream(path.join(outputDirPath, 'got_id_list.csv'));
-	let rejectedStream = fs.createWriteStream(path.join(outputDirPath, 'got_rejected_log.txt'));
+	let rejectedStream = fs.createWriteStream(path.join(outputDirPath, 'got_id_list_rejected_log.txt'));
 
   const csv = d3.dsvFormat(";")
 
 	// Read the GetOldTweets data
 	// joining path of directory 
-	const directoryPath = path.join(__dirname, '..', 'data', 'got');
+	const directoryPath = path.join(__dirname, '..', 'data', 'got_raw');
 	idListStream.write('id\n')
 	// passing directoryPath and callback function
 	fs.readdir(directoryPath, function (err, files) {

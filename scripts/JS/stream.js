@@ -110,6 +110,7 @@ function liveStream() {
 }
  
 function recordRow(row) {
+	let file = (new Date()).toISOString().substr(0,10)
 	// Add row to the live data
 	fs.appendFile(liveDirPath +'/okbooming.csv', row, function (err) {
 	  if (err) throw 'Append to okbooming.csv fail ['+(new Date()).toISOString()+'] '+err
@@ -117,7 +118,7 @@ function recordRow(row) {
 
 	// Add row to the backup data
 	// The file is daily, so we check if we need to create a new file.
-	let backupFile = backupDirPath+'/'+((new Date()).toDateString())+'.csv'
+	let backupFile = backupDirPath+'/'+file+'.csv'
 	if (!fs.existsSync(backupFile)) {
     // file does not exist
 	  fs.writeFile(backupFile, csvStringifier.getHeaderString(), function (err) {
