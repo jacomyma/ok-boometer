@@ -1,10 +1,15 @@
 #!/bin/bash
-rm -rf /ok-boometer
-cd /
-git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git"
+if [ -f "/ok-boometer" ]; then
+  cd /ok-boomter
+  git pull -X theirs
+else
+  git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git"
+fi
+
 cd /ok-boometer
 npm install
 npm run build
+
 mkdir -p /ok-boometer/scripts/data/stream
 cd /ok-boometer/scripts/JS
 cp config.example.js config.js
@@ -15,4 +20,5 @@ sed -i "s#FILLME_ACCES_TOKEN_SECRET#${TWITTER_ACCES_TOKEN_SECRET}#g" /ok-boomete
 npm install
 npm install -g forever
 forever start --spinSleepTime 30000 --minUptime 300000 forever.json
+
 nginx -g 'daemon off;'
