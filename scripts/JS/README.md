@@ -101,7 +101,7 @@ This script needs to be executed again if the file ```ok-booming.csv``` is updat
 
 This script listens to the Twitter API and update the data. It listens to the live stream for any tweet containing 'OK boomer' and decides if it is an OK-booming or not. Every time a new OK-booming is detected, it updates the data three ways:
 * It updates the prod file ```live_booming.csv``` which contains only the last OK-boomings. It is used by the Live view.
-* It updates the prod file ```ok-boomings.csv``` so that next time ```compute_views.js``` (or its recurrent version) is executed, it takes the last ok-boomings in account
+* It updates the prod file ```okbooming.csv``` so that next time ```compute_views.js``` (or its recurrent version) is executed, it takes the last ok-boomings in account
 * It updates a daily file in the ```scripts/data/stream_boomings/``` folder, so that the data can be later reconstructed by ```aggregate_okboomings.js``` if necessary.
 
 Run with:
@@ -120,3 +120,53 @@ It may help to run the following script, telling you how many calls you have lef
 node monitor.js
 ```
 
+# Production site
+
+To set up a public website, it's important to understand the data lifecycle.
+
+
+## What is committed or not in the repository
+
+Not all data is committed in the repository, for both legal and size reasons. The original GetOldTweets data cannot be shared for legal reasons related to the Twitter terms of use. In short, they contain the content of tweets that may since have been deleted. The OK-boomings can be shared though, because they are basically just tweet ids. However the file ```app/data/okbooming.csv``` is too big to be committed to the repository. But it does not matter because all it contains is also contained in the files from the folders ```scripts/data/got_boomings/``` and ```scripts/data/stream_boomings/```. So at the end of the day:
+
+* Raw GetOldTweets content is NOT committed (```scripts/data/got_raw/```)
+* The list of IDs from GetOldTweets IS committed (```scripts/data/got_id_list.csv```)
+* The log of rejected tweets from ```got_to_id_list.js``` is NOT committed (```scripts/data/got_id_list_rejected_log.txt```)
+* The list of IDs from GetOldTweets that are not OK-boomings IS committed (```scripts/data/got_boomings_rejected.csv```)
+* Boomings from GetOldTweets ARE committed (```scripts/data/got_boomings/```)
+* Boomings from Twitter API streaming ARE committed (```scripts/data/stream_boomings/```)
+* The prod data in the app folder is NOT committed (```app/data/```)
+
+
+## Data lifecycle
+
+There are two pathways for the data: one for setup, one for production. And there are bridges between them.
+
+
+### Initial setup
+
+* Get data from GetOldTweets, retrieve data from Twitter, and build the OK-boomings in ```scripts/data/got_boomings/``` (steps 1.a. -> 1.c.)
+* Generate the prod file ```app/data/okbooming.csv``` (step 2.)
+* Compute views (step 3.)
+
+
+### In prod
+
+The forever script will stream data from Twitter and regularly update the view.
+
+* The streaming script updates ```app/data/live_booming.csv``` and ```app/data/okbooming.csv``` to keep prod up to date
+* The views are regularly recomputed from ```app/data/okbooming.csv``` (step 3.)
+* The streaming script *also backup* found OK-boomings into the ```scripts/data/stream_boomings/``` folder. This is used to restart production.
+
+
+### Restarting the production site
+
+When restarting prod, it is not necessary to harvest GetOldTweets again. The boomings are already there. The new boomings from the stream have also been added in their folder.
+
+* Generate the prod file ```app/data/okbooming.csv``` (step 2.) This time, it will also add the previously downloaded OK-boomings from the streaming, in the ```scripts/data/stream_boomings/``` folder.
+* Compute views (step 3.)
+
+
+### Backuping data offline
+
+To backup data offline, the important files to download are those in ```scripts/data/```.
