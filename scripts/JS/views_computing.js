@@ -35,7 +35,7 @@ function compute_views(callback){
 	  	boomings.push(d)
 	  })
 	  .on('end', () => {
-	    console.log('okbooming file read');
+	    console.log('okbooming file read ('+boomings.length+' boomings found)');
 
 	    // Booming absolution: we just forget the tweets
 	    // that are not boomed enough
