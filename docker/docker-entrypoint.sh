@@ -21,7 +21,7 @@ sed -i "s#FILLME_ACCES_TOKEN_SECRET#${TWITTER_ACCES_TOKEN_SECRET}#g" /ok-boomete
 npm install
 npm install -g forever
 
-node compute_views.js
+node rebuild_front_data.js
 forever start --spinSleepTime 30000 --minUptime 300000 forever.json
 
 nginx -g 'daemon off;'
