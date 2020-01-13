@@ -20,7 +20,7 @@ sed -i "s#FILLME_CONSUMER_SECRET#${TWITTER_CONSUMER_SECRET}#g" /ok-boometer/scri
 sed -i "s#FILLME_ACCESS_TOKEN_KEY#${TWITTER_ACCESS_TOKEN_KEY}#g" /ok-boometer/scripts/JS/config.js
 sed -i "s#FILLME_ACCES_TOKEN_SECRET#${TWITTER_ACCES_TOKEN_SECRET}#g" /ok-boometer/scripts/JS/config.js
 npm install
-npm install -g forever
+npm install -g pm2
 
 # Run starting scripts
 node rebuild_front_data.js
