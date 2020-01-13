@@ -35,6 +35,10 @@ function compute_views(callback){
 	  	boomings.push(d)
 	  })
 	  .on('end', () => {
+	  	if (boomings.length==0) {
+	  		throw 'No boomings found in okbooming.csv file :('
+	  	}
+	  	
 	    console.log('okbooming file read ('+boomings.length+' boomings found)');
 
 	    // Booming absolution: we just forget the tweets
