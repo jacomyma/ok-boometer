@@ -5,8 +5,8 @@ scripts/data/got_raw/*
 scripts/data/got_id_list_rejected_log.txt
 scripts/JS/node_modules/*
 scripts/JS/config.js
-scripts/JS/stream.errors
-scripts/JS/recurrent_compute_views.errors
+scripts/JS/log-live-stream.txt
+scripts/JS/log-refresh-views.txt
 
 # Windows image file caches
 Thumbs.db

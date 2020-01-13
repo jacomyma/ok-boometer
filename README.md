@@ -53,29 +53,33 @@ Edit ```config.js``` to fill your Twitter API credentials. You may also change t
 
 ### Launch the live stream
 
-The live stream uses [Forever](https://www.npmjs.com/package/forever) to run the script as a deamon.
+The live stream uses [PM2](https://www.npmjs.com/package/pm2) to run the script as a deamon.
+
 ```
 # Start the deamon
-forever start --spinSleepTime 30000 --minUptime 300000 forever.json
+pm2 start stream.js --name live-stream --log log-live-stream.txt --restart-delay 300000
 
-# If you need to stop it:
-forever stopall
+# Restart it
+pm2 restart live-stream
+
+# Stop it
+pm2 stop live-stream
+# note: it does not delete it. So you can start it again:
+pm2 start live-stream
+
+# Delete it
+pm2 delete live-stream
 ```
 
-For maintenance, use the following commands:
+
+### Launch script to update views
+
+It works exactly like for the live stream, with a slightly different setting (30s delay instead of 5min):
+
 ```
-# List running scripts to check if stream is running:
-forever list
-
-# Stop the script
-forever stopall
-
-# Relaunch the script
-forever restartall
-
-# Find the logs
-forever logs
+pm2 start recurrent_compute_views.js --name refresh-views --log log-refresh-views.txt --restart-delay 30000
 ```
+
 
 ## Server configuration
 

@@ -94,7 +94,7 @@ node compute_views.js
 
 This script needs to be executed again if the file ```ok-booming.csv``` is updated. In practice, it is sufficient to run it just once every few minutes.
 
-**Note**: in prod we use ```forever``` to run a similar script called ```recurrent_compute_views.js```. The only difference is that that one runs the process every 5 minutes and auto-dies after a while. Then ```forever``` will spawn it again.
+**Note**: in prod we use ```pm2``` (Process Manager 2) to run a similar script called ```recurrent_compute_views.js```. The only difference is that that one runs the process every 5 minutes and auto-dies after a while. Then ```pm2``` will spawn it again.
 
 
 ## 4. Listen to the Stream API to update the file live
@@ -109,7 +109,7 @@ Run with:
 node stream.js
 ```
 
-**Note**: this script auto-dies after a while, because in production ```forever``` will reboot it anyway. It ensure that the script does not get stuck in weird places for unknown reasons for too long.
+**Note**: this script auto-dies after a while, because in production ```pm2``` will reboot it anyway. It ensure that the script does not get stuck in weird places for unknown reasons for too long.
 
 
 ## Monitor your API use
@@ -152,7 +152,7 @@ There are two pathways for the data: one for setup, one for production. And ther
 
 ### In prod
 
-The forever script will stream data from Twitter and regularly update the view.
+The pm2 script will stream data from Twitter and regularly update the view.
 
 * The streaming script updates ```app/data/live_booming.csv``` and ```app/data/okbooming.csv``` to keep prod up to date
 * The views are regularly recomputed from ```app/data/okbooming.csv``` (step 3.)

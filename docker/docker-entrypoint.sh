@@ -6,11 +6,16 @@ else
   git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git"
 fi
 
+# prevent congestion of max_user_watches
+# echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
+
+# Install and set up front-end
 cd /ok-boometer
 npm install
 npm run build
-
 mkdir -p /pk-boometer/app/data
+
+# Install and set up back-end
 cd /ok-boometer/scripts/JS
 cp config.example.js config.js
 sed -i "s#FILLME_CONSUMER_KEY#${TWITTER_CONSUMER_KEY}#g" /ok-boometer/scripts/JS/config.js
@@ -20,7 +25,8 @@ sed -i "s#FILLME_ACCES_TOKEN_SECRET#${TWITTER_ACCES_TOKEN_SECRET}#g" /ok-boomete
 npm install
 npm install -g forever
 
-#node rebuild_front_data.js
-#forever start --spinSleepTime 30000 --minUptime 300000 forever.json
+node rebuild_front_data.js
+pm2 start stream.js --name live-stream --log log-live-stream.txt --restart-delay 300000
+pm2 start recurrent_compute_views.js --name refresh-views --log log-refresh-views.txt --restart-delay 30000
 
 nginx -g 'daemon off;'
