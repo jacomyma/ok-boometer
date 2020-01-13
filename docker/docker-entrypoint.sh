@@ -11,7 +11,6 @@ npm install
 npm run build
 
 mkdir -p /pk-boometer/app/data
-mkdir -p /ok-boometer/scripts/data/stream
 cd /ok-boometer/scripts/JS
 cp config.example.js config.js
 sed -i "s#FILLME_CONSUMER_KEY#${TWITTER_CONSUMER_KEY}#g" /ok-boometer/scripts/JS/config.js
