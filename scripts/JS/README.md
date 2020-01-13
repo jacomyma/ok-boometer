@@ -164,9 +164,20 @@ The forever script will stream data from Twitter and regularly update the view.
 When restarting prod, it is not necessary to harvest GetOldTweets again. The boomings are already there. The new boomings from the stream have also been added in their folder.
 
 * Generate the prod file ```app/data/okbooming.csv``` (step 2.) This time, it will also add the previously downloaded OK-boomings from the streaming, in the ```scripts/data/stream_boomings/``` folder.
-* Compute views (step 3.)
+* *THEN,* Compute views (step 3.)
 
+Since computing the views must be done only after the OK-Boomings are aggregated, a dedicated script does the tasks in the right order. Just run:
+```
+node rebuild_front_data.js
+```
 
 ### Backuping data offline
 
-To backup data offline, the important files to download are those in ```scripts/data/```.
+To backup data offline, the important files to download are those in ```scripts/data/```. In particular the folder ```stream_boomings/```, which contains the data obtained from the live streaming.
+
+Indeed, it makes sense to run the GetOldTweets scripts offline, since they only serve as an archive of older OK-Boomings. But the prod site needs to have the live streaming running at any time, while a general purpose computer will probably not be streaming data from Twitter all the time. So it makes sense that the prod site contains the better streaming data.
+
+
+### Fixing holes in streaming data
+
+If for a given period the data has not been properly harvested, the way to fix the data is to add the corresponding GetOldTweets data. The idea is to run the harvesting for the given period and add the file to the ```scripts/data/got_raw``` folder. Then it is necessary to run steps 1.b and 1.c, and then restart the production site with ```rebuild_front_data.js```.
