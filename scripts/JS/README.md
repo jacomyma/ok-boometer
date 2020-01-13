@@ -59,7 +59,7 @@ Basically, tweets to harvest and decide are tweets from the id list that are nei
 
 Run with:
 ```
-node harvest_id_list.js
+node harvest_got_id_list.js
 ```
 
 If the Twitter API has reached its limit, wait 15 minutes and run the script again, until all necessary tweets are retrieved.
