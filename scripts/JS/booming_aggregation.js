@@ -34,6 +34,10 @@ function aggregate_boomings(callback) {
 
 	function writeOKBooming(callback) {
 		const outputDirPath = path.join(__dirname, '..','..','app','data');
+		// Create folder if it does not exist
+		if (!fs.existsSync(outputDirPath)){
+	    fs.mkdirSync(outputDirPath);
+		}
 		const csvWriter = createCsvWriter({
 		  path: path.join(outputDirPath, 'okbooming.csv'),
 		  alwaysQuote: true,
@@ -62,6 +66,10 @@ function aggregate_boomings(callback) {
 
 	function loadStreamData(callback) {
 		const directoryPath = path.join(__dirname, '..', 'data', 'stream_boomings');
+		// Create folder if it does not exist
+		if (!fs.existsSync(directoryPath)){
+	    fs.mkdirSync(directoryPath);
+		}
 		let streamingTweets = 0
 		fs.readdir(directoryPath, function (err, files) {
 		  //handling error
@@ -99,6 +107,10 @@ function aggregate_boomings(callback) {
 
 	function loadGOTData(callback) {
 		const directoryPath = path.join(__dirname, '..', 'data', 'got_boomings');
+		// Create folder if it does not exist
+		if (!fs.existsSync(directoryPath)){
+	    fs.mkdirSync(directoryPath);
+		}
 		let boomingTweets = 0
 		fs.readdir(directoryPath, function (err, files) {
 		  //handling error

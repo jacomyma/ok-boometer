@@ -14,6 +14,10 @@ function getOldTweets_to_idList() {
 	options.limit = Infinity // For testing purpose
 
 	const outputDirPath = path.join(__dirname, '..', 'data');
+	// Create folder if it does not exist
+	if (!fs.existsSync(outputDirPath)){
+    fs.mkdirSync(outputDirPath);
+	}
 	let idListStream = fs.createWriteStream(path.join(outputDirPath, 'got_id_list.csv'));
 	let rejectedStream = fs.createWriteStream(path.join(outputDirPath, 'got_id_list_rejected_log.txt'));
 

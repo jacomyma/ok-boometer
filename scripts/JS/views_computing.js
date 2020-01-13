@@ -18,6 +18,10 @@ function compute_views(callback){
 		{id:'', duration:Infinity}
 	]
 	const dataDirPath = path.join(__dirname, '..','..','app','data');
+	// Create folder if it does not exist
+	if (!fs.existsSync(dataDirPath)){
+	  fs.mkdirSync(dataDirPath);
+	}
 	const file = path.join(dataDirPath, 'okbooming.csv')
 	let usernameIndex = {}
 	let whoTweetedIndex = {}
@@ -62,6 +66,10 @@ function compute_views(callback){
 
 	function writeWhoTweetedIndex(whoTweetedIndex, callback){
 		const dataDirPath = path.join(__dirname, '..','..','app','data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+		  fs.mkdirSync(dataDirPath);
+		}
 		let file = 'whoTweetedIndex.csv'
 		var data = []
 		for (id in whoTweetedIndex){
@@ -93,6 +101,10 @@ function compute_views(callback){
 
 	function writeUsernameIndex(usernameIndex, callback){
 		const dataDirPath = path.join(__dirname, '..','..','app','data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+		  fs.mkdirSync(dataDirPath);
+		}
 		let file = 'usernameIndex.csv'
 		var data = []
 		for (id in usernameIndex){
@@ -124,6 +136,10 @@ function compute_views(callback){
 
 	function writeTopBoomedTweets(boomings, callback){
 		const dataDirPath = path.join(__dirname, '..','..','app','data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+		  fs.mkdirSync(dataDirPath);
+		}
 		const now = new Date()
 		let remainingTimeRanges = timeRanges.slice(0)
 		writeNext(callback)
@@ -169,6 +185,10 @@ function compute_views(callback){
 
 	function writeTopBoomed(boomings, callback){
 		const dataDirPath = path.join(__dirname, '..','..','app','data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+		  fs.mkdirSync(dataDirPath);
+		}
 		const now = new Date()
 		let remainingTimeRanges = timeRanges.slice(0)
 		writeNext(callback)
@@ -214,6 +234,10 @@ function compute_views(callback){
 
 	function writeBoomings(boomings, callback){
 		const dataDirPath = path.join(__dirname, '..','..','app','data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+		  fs.mkdirSync(dataDirPath);
+		}
 		const now = new Date()
 		let remainingTimeRanges = timeRanges.slice(0)
 		writeNext(callback)

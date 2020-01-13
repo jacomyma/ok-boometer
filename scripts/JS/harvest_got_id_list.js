@@ -46,6 +46,10 @@ function harvest_gotIdList() {
 function updateGOTBoomingFiles(callback) {
 		// Update rejected data
 		const dataDirPath = path.join(__dirname, '..', 'data')
+		// Create folder if it does not exist
+		if (!fs.existsSync(dataDirPath)){
+	    fs.mkdirSync(dataDirPath);
+		}
 		const file = path.join(dataDirPath,'got_boomings_rejected.csv')
 		const csvWriter = createCsvWriter({
 		  path: file,
@@ -88,6 +92,10 @@ function updateGOTBoomingFiles(callback) {
 			if (boomingData.length > 0) {
 				const data = boomingData.pop()
 				const dataDirPath = path.join(__dirname, '..', 'data/got_boomings')
+				// Create folder if it does not exist
+				if (!fs.existsSync(dataDirPath)){
+			    fs.mkdirSync(dataDirPath);
+				}
 				const file = path.join(dataDirPath, data.key+'.csv')
 				const csvWriter = createCsvWriter({
 				  path: file,
@@ -269,6 +277,7 @@ function updateGOTBoomingFiles(callback) {
 		  //handling error
 		  if (err) {
 		  	return console.log('Unable to scan directory: ' + err);
+		  	callback()
 		  } 
 			let filesCount = files.length
 			console.log(filesCount+' files to parse')

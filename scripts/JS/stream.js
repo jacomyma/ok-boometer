@@ -10,7 +10,15 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 
 const liveDirPath = path.join(__dirname, '../../app/data');
+// Create folder if it does not exist
+if (!fs.existsSync(liveDirPath)){
+  fs.mkdirSync(liveDirPath);
+}
 const backupDirPath = path.join(__dirname, '../data/stream_boomings');
+// Create folder if it does not exist
+if (!fs.existsSync(backupDirPath)){
+  fs.mkdirSync(backupDirPath);
+}
 const liveFile = liveDirPath+'/live_booming.csv'
 
 const T = new Twitter(config);
