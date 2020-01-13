@@ -6,9 +6,6 @@ else
   git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git"
 fi
 
-# prevent congestion of max_user_watches
-# echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-
 # Install and set up front-end
 cd /ok-boometer
 npm install
@@ -25,6 +22,7 @@ sed -i "s#FILLME_ACCES_TOKEN_SECRET#${TWITTER_ACCES_TOKEN_SECRET}#g" /ok-boomete
 npm install
 npm install -g forever
 
+# Run starting scripts
 node rebuild_front_data.js
 pm2 start stream.js --name live-stream --log log-live-stream.txt --restart-delay 300000
 pm2 start recurrent_compute_views.js --name refresh-views --log log-refresh-views.txt --restart-delay 30000
