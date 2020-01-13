@@ -38,7 +38,7 @@ function compute_views(callback){
 	  	if (boomings.length==0) {
 	  		throw 'No boomings found in okbooming.csv file :('
 	  	}
-	  	
+
 	    console.log('okbooming file read ('+boomings.length+' boomings found)');
 
 	    // Booming absolution: we just forget the tweets
@@ -59,6 +59,7 @@ function compute_views(callback){
 				    writeUsernameIndex(usernameIndex, ()=>{
 					    writeWhoTweetedIndex(whoTweetedIndex, ()=>{
 						    if (callback) {
+						    	console.log('All views computed successfully')
 						    	callback()
 						    }
 					    })
@@ -93,7 +94,7 @@ function compute_views(callback){
 		csvWriter
 		  .writeRecords(data)
 		  .then(()=>{
-		  	console.log(file+' was written successfully')
+		  	// console.log(file+' was written successfully')
 		  	if (callback) {
 		    	callback()
 		    }
@@ -128,7 +129,7 @@ function compute_views(callback){
 		csvWriter
 		  .writeRecords(data)
 		  .then(()=>{
-		  	console.log(file+' was written successfully')
+		  	// console.log(file+' was written successfully')
 		  	if (callback) {
 		    	callback()
 		    }
@@ -177,7 +178,7 @@ function compute_views(callback){
 				csvWriter
 				  .writeRecords(data)
 				  .then(()=>{
-				  	console.log(file+' was written successfully')
+				  	// console.log(file+' was written successfully')
 				  	writeNext(callback)
 				  })
 				  .catch(function(error) {
@@ -226,7 +227,7 @@ function compute_views(callback){
 				csvWriter
 				  .writeRecords(data)
 				  .then(()=>{
-				  	console.log(file+' was written successfully')
+				  	// console.log(file+' was written successfully')
 				  	writeNext(callback)
 				  })
 				  .catch(function(error) {
@@ -265,7 +266,7 @@ function compute_views(callback){
 				  	return now-d.time <= tr.duration
 				  }))
 				  .then(()=>{
-				  	console.log(file+' was written successfully')
+				  	// console.log(file+' was written successfully')
 				  	writeNext(callback)
 				  })
 				  .catch(function(error) {
