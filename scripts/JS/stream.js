@@ -9,17 +9,17 @@ const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 
-const liveDirPath = path.join(__dirname, '../../app/data');
+const liveDirPath = path.join(__dirname, '..', '..', 'app', 'data');
 // Create folder if it does not exist
 if (!fs.existsSync(liveDirPath)){
   fs.mkdirSync(liveDirPath);
 }
-const backupDirPath = path.join(__dirname, '../data/stream_boomings');
+const backupDirPath = path.join(__dirname, '..', '..', 'app', 'data-src', 'stream_boomings');
 // Create folder if it does not exist
 if (!fs.existsSync(backupDirPath)){
   fs.mkdirSync(backupDirPath);
 }
-const liveFile = liveDirPath+'/live_booming.csv'
+const liveFile = path.join(liveDirPath, 'live_booming.csv')
 
 const T = new Twitter(config);
 const searchQuery = 'ok boomer'
@@ -120,13 +120,13 @@ function liveStream() {
 function recordRow(row) {
 	let file = (new Date()).toISOString().substr(0,10)
 	// Add row to the live data
-	fs.appendFile(liveDirPath +'/okbooming.csv', row, function (err) {
+	fs.appendFile(path.join(liveDirPath, 'okbooming.csv'), row, function (err) {
 	  if (err) throw 'Append to okbooming.csv fail ['+(new Date()).toISOString()+'] '+err
 	});
 
 	// Add row to the backup data
 	// The file is daily, so we check if we need to create a new file.
-	let backupFile = backupDirPath+'/'+file+'.csv'
+	let backupFile = path.join(backupDirPath, file+'.csv')
 	if (!fs.existsSync(backupFile)) {
     // file does not exist
 	  fs.writeFile(backupFile, csvStringifier.getHeaderString(), function (err) {

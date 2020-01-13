@@ -45,7 +45,7 @@ function harvest_gotIdList() {
 
 function updateGOTBoomingFiles(callback) {
 		// Update rejected data
-		const dataDirPath = path.join(__dirname, '..', 'data')
+		const dataDirPath = path.join(__dirname, '..', '..', 'app', 'data-src')
 		// Create folder if it does not exist
 		if (!fs.existsSync(dataDirPath)){
 	    fs.mkdirSync(dataDirPath);
@@ -91,7 +91,7 @@ function updateGOTBoomingFiles(callback) {
 		function writeNextAcceptedFile(callback) {
 			if (boomingData.length > 0) {
 				const data = boomingData.pop()
-				const dataDirPath = path.join(__dirname, '..', 'data/got_boomings')
+				const dataDirPath = path.join(__dirname, '..', '..', 'app', 'data-src', 'got_boomings')
 				// Create folder if it does not exist
 				if (!fs.existsSync(dataDirPath)){
 			    fs.mkdirSync(dataDirPath);
@@ -271,7 +271,7 @@ function updateGOTBoomingFiles(callback) {
 	}
 
 	function loadGOTBoomings(callback) {
-		const directoryPath = path.join(__dirname, '..', 'data', 'got_boomings');
+		const directoryPath = path.join(__dirname, '..', '..', 'app', 'data-src', 'got_boomings');
 		let boomingTweets = 0
 		fs.readdir(directoryPath, function (err, files) {
 		  //handling error
@@ -322,7 +322,7 @@ function updateGOTBoomingFiles(callback) {
 	}
 
 	function loadGOTRejectedBoomings(callback) {
-		const dataDirPath = path.join(__dirname, '..', 'data')
+		const dataDirPath = path.join(__dirname, '..', '..', 'app', 'data-src')
 		const file = path.join(dataDirPath,'got_boomings_rejected.csv')
 		let rejectedTweets = 0
 		if (!fs.existsSync(file)) {

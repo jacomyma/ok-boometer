@@ -65,7 +65,7 @@ function aggregate_boomings(callback) {
 	}
 
 	function loadStreamData(callback) {
-		const directoryPath = path.join(__dirname, '..', 'data', 'stream_boomings');
+		const directoryPath = path.join(__dirname, '..', '..', 'app', 'data-src', 'stream_boomings');
 		// Create folder if it does not exist
 		if (!fs.existsSync(directoryPath)){
 	    fs.mkdirSync(directoryPath);
@@ -106,7 +106,7 @@ function aggregate_boomings(callback) {
 	}
 
 	function loadGOTData(callback) {
-		const directoryPath = path.join(__dirname, '..', 'data', 'got_boomings');
+		const directoryPath = path.join(__dirname, '..', '..', 'app', 'data-src', 'got_boomings');
 		// Create folder if it does not exist
 		if (!fs.existsSync(directoryPath)){
 	    fs.mkdirSync(directoryPath);
