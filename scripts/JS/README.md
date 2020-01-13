@@ -64,9 +64,22 @@ node harvest_id_list.js
 
 If the Twitter API has reached its limit, wait 15 minutes and run the script again, until all necessary tweets are retrieved.
 
-## TODO
 
-### 3. Compute views
+## 2. Merge stream data and GetOldTweets data into okboomings.csv
+
+The first time there will only be data from GetOldTweets; but after a while, the streaming (see below) will add its own data. The idea is that GetOldTweets provides data for when you cannot listen, and the streaming from Twitter API provides data in a more sustainable way. Ideally, when in production, all recent data has been provided by the streaming. GetOldTweet can nevertheless be used to fix missing data, for instance if the streaming goes down for some reason.
+
+Run with:
+```
+node aggregate_okboomings.js
+```
+
+This script scans the contents of the folders ```scripts/data/got_boomings/``` and ```scripts/data/stream_boomings/```, and generates an aggregated version as the file ```app/data/okbooming.csv```. This file contains all the data used by the front-end, but the front-end does not load it directly because it is too big. Another script (```compute_views.js```) is in charge of breaking it down into smaller files dedicated to each views. Internet users can download it, though.
+
+**Note**: this script is not the only one to write ```app/data/okbooming.csv```. The streaming also does it.
+
+
+## 3. Compute views
 
 This script computes the front-end views per time modes (year, month...) from okboomings.
 
@@ -84,12 +97,12 @@ This script needs to be executed again if the file ```ok-booming.csv``` is updat
 **Note**: in prod we use ```forever``` to run a similar script called ```recurrent_compute_views.js```. The only difference is that that one runs the process every 5 minutes and auto-dies after a while. Then ```forever``` will spawn it again.
 
 
-### 4. Listen to the Stream API to update the file live
+## 4. Listen to the Stream API to update the file live
 
 This script listens to the Twitter API and update the data. It listens to the live stream for any tweet containing 'OK boomer' and decides if it is an OK-booming or not. Every time a new OK-booming is detected, it updates the data three ways:
 * It updates the prod file ```live_booming.csv``` which contains only the last OK-boomings. It is used by the Live view.
 * It updates the prod file ```ok-boomings.csv``` so that next time ```compute_views.js``` (or its recurrent version) is executed, it takes the last ok-boomings in account
-* It updates a daily file in the ```scripts/data/stream/``` folder, so that the data can be later reconstructed by ```harvest_id_list.js``` if necessary.
+* It updates a daily file in the ```scripts/data/stream_boomings/``` folder, so that the data can be later reconstructed by ```aggregate_okboomings.js``` if necessary.
 
 Run with:
 ```
@@ -99,10 +112,11 @@ node stream.js
 **Note**: this script auto-dies after a while, because in production ```forever``` will reboot it anyway. It ensure that the script does not get stuck in weird places for unknown reasons for too long.
 
 
-### Monitor your API use
+## Monitor your API use
 
 It may help to run the following script, telling you how many calls you have left (regenerates every 15 minutes).
 
 ```
 node monitor.js
 ```
+
