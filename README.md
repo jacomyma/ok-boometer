@@ -104,5 +104,6 @@ $> docker run --name okboomer -d -p 80:80  \
   --env TWITTER_CONSUMER_SECRET="XXXX" \
   --env TWITTER_ACCESS_TOKEN_KEY="XXXX" \
   --env TWITTER_ACCESS_TOKEN_SECRET="XXXX" \
+  --volume=$HOME/ok-boometer:/ok-boometer
   okboomer:latest
 ```

@@ -1,18 +1,26 @@
 #!/bin/bash
-if [ -f "/ok-boometer" ]; then
-  cd /ok-boomter
+
+# If folder is not present we create it
+if [ ! -f "/ok-boometer" ]; then
+  mkdir -p /ok-boometer
+fi
+cd /ok-boomter
+
+# if folder is not empty, so it's a git repo and we update it
+# Otherwise we clone the repo
+if [ "$(ls -A /ok-boometer)" ]; then
   git pull -X theirs
 else
-  git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git"
+  git clone "https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jacomyma/ok-boometer.git" .
 fi
 
-# Install and set up front-end
-cd /ok-boometer
+# Build the frontend app
 npm install
 npm run build
-mkdir -p /pk-boometer/app/data
 
-# Install and set up back-end
+# Preparation for the data scripts
+mkdir -p /ok-boometer/app/data
+mkdir -p /ok-boometer/scripts/data/stream
 cd /ok-boometer/scripts/JS
 cp config.example.js config.js
 sed -i "s#FILLME_CONSUMER_KEY#${TWITTER_CONSUMER_KEY}#g" /ok-boometer/scripts/JS/config.js
