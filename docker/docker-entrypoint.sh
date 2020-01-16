@@ -4,7 +4,7 @@
 if [ ! -f "/ok-boometer" ]; then
   mkdir -p /ok-boometer
 fi
-cd /ok-boomter
+cd /ok-boometer
 
 # if folder is not empty, so it's a git repo and we update it
 # Otherwise we clone the repo
